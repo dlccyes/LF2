@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LF2</title>
+  <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
+  <!-- <script src="{{ url_for('static', filename='helper.js') }}"></script> -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <!-- <link rel="icon" href="https://i.imgur.com/mypR8sN.png"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>haha</h1>
+</body>
+</html>
+<script>
+function getResult(msg, callback){ //to backend
+  processing = true;
+  var objData = {
+    'message': {},
+  };
+  objData['message']['text'] = msg;
+  $.ajax({
+    // type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(objData),
+    url: "/test",
+    success: function(result){
+      console.log(result);
+      reply_html = '';
+      if (!result['success']){ // error
+        // reply_html += "<p>I'm sleeping right now 😴😴<br>Please try again later.</p>";
+        console.log('error')
+      }
+      callback();
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log('error ' + textStatus);
+      console.log(jqXHR);
+    },
+  });
+};
+$(document).ready(function(){
+    getResult('hello', function(){
+        console.log('done');
+    });
+});
+</script>
