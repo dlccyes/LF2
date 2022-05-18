@@ -1,8 +1,9 @@
-from email.mime import application
 from flask import Flask, request, abort, render_template, url_for, redirect
 import boto3
 import os
 from dotenv import load_dotenv
+
+load_dotenv()
 
 application = Flask(__name__)
 
@@ -17,16 +18,15 @@ def test_API():
 
 
 def test_db():
-    # return os.getenv('AWS_ACCESS_KEY_ID')
-    # if (os.getenv('AWS_ACCESS_KEY_ID')):
-    #     session = boto3.Session(
-    #         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-    #         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-    #         # region='us-west-1',
-    #     )
-    # else:
     try:
-        session = boto3.Session(region_name=os.getenv('REGION_NAME', 'us-west-1'))
+        if (os.getenv('AWS_ACCESS_KEY_ID')): # use environment variables if exist
+            session = boto3.Session(
+                aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+                aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+                region_name=os.getenv('REGION_NAME', 'us-west-1')
+            )
+        else: # use ~/.aws
+            session = boto3.Session(region_name=os.getenv('REGION_NAME', 'us-west-1'))
         dynamodb = session.resource('dynamodb')
         table = dynamodb.Table('test')
         print(table.creation_date_time)

@@ -1,0 +1,17 @@
+branch-defaults:
+  master:
+    environment: flask-env
+global:
+  application_name: LF2
+  branch: null
+  default_ec2_keyname: null
+  default_platform: Python 3.7
+  default_region: us-east-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: git
+  workspace_type: Application
