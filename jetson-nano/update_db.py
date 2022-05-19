@@ -2,7 +2,7 @@ import os
 from time import strftime, strptime
 from dotenv import load_dotenv
 import boto3
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 load_dotenv()
 
@@ -26,7 +26,7 @@ def log_attendance(student_ids):
 
     with table.batch_writer() as batch:
         for student_id in student_ids:
-            log_time = datetime.now().isoformat()
+            log_time = datetime.now(timezone(timedelta(hours=8))).isoformat()
             batch.put_item(
                 Item={
                         'log_time': log_time,
@@ -45,9 +45,8 @@ def log_emotion(emotion_list):
     table_name = 'emotion_t'
     table = dynamodb.Table(table_name)
 
-    # format datetime as yyyy:mm:ddTHH:MM:SS
-    # log_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-    log_time = datetime.now().isoformat()
+    log_time = datetime.now(timezone(timedelta(hours=8))).isoformat()
+    
     table.put_item(
         Item={
                 'log_time': log_time,

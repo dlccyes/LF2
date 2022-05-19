@@ -1,9 +1,10 @@
 from flask import Flask, request, abort, render_template, url_for, redirect
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 from dotenv import load_dotenv
+from helper import *
 
 load_dotenv()
 
@@ -28,10 +29,11 @@ def get_overall_attendance():
     try:
         request_json = request.get_json()
         time_range = request_json['time_range']
+        if not time_range:
+            time_range = 600
         table = dynamodb.Table('attendance_t')
-        time_end = datetime.now().isoformat()
-        time_start = datetime.now() - timedelta(seconds=time_range)
-        time_start = time_start.strftime("%Y-%m-%dT%H:%M:%S")
+        time_start, time_end = get_time_range(time_range)
+        # raise Exception(f'time_start: {time_start}, time_end: {time_end}')
         response = table.scan(
             FilterExpression=Key('log_time').between(time_start, time_end)
         )
@@ -55,19 +57,17 @@ def get_all_students():
 def get_student_attendance(student_id, time_range=600):
     """get the attendance data of a specifig student within a time range"""
     table = dynamodb.Table('attendance_t')
-    time_end = datetime.now().isoformat()
-    time_start = datetime.now() - timedelta(seconds=time_range)
-    time_start = time_start.strftime("%Y-%m-%dT%H:%M:%S")
+    time_start, time_end = get_time_range(time_range)
+
     response = table.scan(
-        FilterExpression=Key('log_time').between(time_start, time_now) & Key('student_id').eq(student_id)
+        FilterExpression=Key('log_time').between(time_start, time_end) & Key('student_id').eq(student_id)
     )
     return response['Items']
 
 def get_emotion(time_range=600):
     table = dynamodb.Table('emotion_t')
-    time_end = datetime.now().isoformat()
-    time_start = datetime.now() - timedelta(seconds=time_range)
-    time_start = time_start.strftime("%Y-%m-%dT%H:%M:%S")
+    time_start, time_end = get_time_range(time_range)
+
     response = table.scan(
         FilterExpression=Key('log_time').between(time_start, time_end)
     )
