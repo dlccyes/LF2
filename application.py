@@ -42,7 +42,7 @@ def get_overall_attendance():
             student_set.add(item['student_id'])
         num_attendance = len(student_set)
         num_student = get_all_students()['Count']
-        return {'success':1, 'num_attendance':num_attendance, 'num_student':num_student}
+        return {'success':1, 'data':{'num_attendance':num_attendance, 'num_student':num_student}}
 
     except Exception as e:
         print("something's wrong: ", e)
@@ -53,16 +53,26 @@ def get_all_students():
     response = table.scan()
     return response
 
-@application.route('/get_student_attendance')
-def get_student_attendance(student_id, time_range=600):
+@application.route('/get_student_attendance', methods=['POST'])
+def get_student_attendance():
     """get the attendance data of a specifig student within a time range"""
-    table = dynamodb.Table('attendance_t')
-    time_start, time_end = get_time_range(time_range)
+    try:
+        request_json = request.get_json()
+        student_id = request_json['student_id']
+        time_range = request_json['time_range']
+        table = dynamodb.Table('attendance_t')
+        time_start, time_end = get_time_range(time_range)
 
-    response = table.scan(
-        FilterExpression=Key('log_time').between(time_start, time_end) & Key('student_id').eq(student_id)
-    )
-    return response['Items']
+        response = table.scan(
+            FilterExpression=Key('log_time').between(time_start, time_end) & Key('student_id').eq(student_id)
+        )
+        is_present = 0
+        if len(response['Items']) != 0:
+            is_present = 1
+        return {'success':1, 'data':{'is_present':is_present}}
+    except Exception as e:
+        print("something's wrong: ", e)
+        return {'success':0, 'error':str(e)}
 
 def get_emotion(time_range=600):
     table = dynamodb.Table('emotion_t')
@@ -72,6 +82,26 @@ def get_emotion(time_range=600):
         FilterExpression=Key('log_time').between(time_start, time_end)
     )
     return response['Items']
+
+@application.route('/std/<student_id>')
+def student_page(student_id):
+    """student page"""
+    try:
+        table = dynamodb.Table('student_t')
+        response = table.get_item(
+            Key={
+                'student_id': student_id,
+            }
+        )
+        print(response)
+        if 'Item' not in response or len(response['Item']) == 0:
+            return render_template('invalid.html', reason="Student doesn't exist.")
+        
+        return render_template('student.html', student_id=student_id)
+    except Exception as e:
+        print("something's wrong: ", e)
+        return render_template('invalid.html')
+        # return {'success':0, 'error':str(e)}
 
 @application.route('/test')
 def test_API():
@@ -92,6 +122,10 @@ def test_db():
     except Exception as e:
         print("something's wrong: ", e)
         return str(e)
+
+@application.errorhandler(404)
+def page_not_found(e):
+    return render_template('invalid.html')
 
 if __name__ == "__main__":
     # port = int(os.environ.get('PORT', 5000))

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>LF2</title>
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-  <!-- <script src="{{ url_for('static', filename='helper.js') }}"></script> -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <!-- <link rel="icon" href="https://i.imgur.com/mypR8sN.png"> -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block body %}
 <h1>haha</h1>
 <div class="content">
   <button id="refresh" class="btn">Refresh</button>
@@ -16,40 +8,20 @@
     <p>Attendance: <span id="numAttendance">?</span>/<span id="numStudent">?</span></p>
   </div>
 </div>
-</body>
-</html>
+{% endblock %}
+
+{% block script %}
 <script>
-function getData(url, objData, callback){ //to backend
-  $.ajax({
-    type: 'POST',
-    dataType: 'json',
-    contentType: 'application/json',
-    data: JSON.stringify(objData),
-    url: url,
-    success: function(result){
-      reply_html = '';
-      if (!result['success']){ // error
-        console.log(result['error'])
-      } else {
-        callback(result);
-      }
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      console.log('error ' + textStatus);
-      console.log(jqXHR);
-    },
-  });
-};
 
 function getOverallAttendance(){
   var objData = {
     'time_range': 6000
   };
   // objData['message']['text'] = msg;
-  getData('/get_overall_attendance', objData, function(result){
-    console.log(result['num_attendance'], result['num_student']);
-    $('#numAttendance').text(result['num_attendance']);
-    $('#numStudent').text(result['num_student']);
+  getData('/get_overall_attendance', objData, function(data){
+    console.log(data['num_attendance'], data['num_student']);
+    $('#numAttendance').text(data['num_attendance']);
+    $('#numStudent').text(data['num_student']);
   });
 };
 
@@ -59,6 +31,6 @@ $(document).ready(function(){
     $('#refresh').on('click', function(){
       getOverallAttendance();
     });
-
 });
 </script>
+{% endblock %}
