@@ -23,13 +23,43 @@ dynamodb = session.resource('dynamodb')
 def index():
     return render_template('index.html')
 
+@application.route('/get_overall_attendance', methods=['POST'])
+def get_overall_attendance():
+    try:
+        request_json = request.get_json()
+        time_range = request_json['time_range']
+        table = dynamodb.Table('attendance_t')
+        time_end = datetime.now().isoformat()
+        time_start = datetime.now() - timedelta(seconds=time_range)
+        time_start = time_start.strftime("%Y-%m-%dT%H:%M:%S")
+        response = table.scan(
+            FilterExpression=Key('log_time').between(time_start, time_end)
+        )
+        student_set = set()
+        for item in response['Items']:
+            student_set.add(item['student_id'])
+        num_attendance = len(student_set)
+        num_student = get_all_students()['Count']
+        return {'success':1, 'num_attendance':num_attendance, 'num_student':num_student}
+
+    except Exception as e:
+        print("something's wrong: ", e)
+        return {'success':0, 'error':str(e)}
+
+def get_all_students():
+    table = dynamodb.Table('student_t')
+    response = table.scan()
+    return response
+
+@application.route('/get_student_attendance')
 def get_student_attendance(student_id, time_range=600):
+    """get the attendance data of a specifig student within a time range"""
     table = dynamodb.Table('attendance_t')
-    time_now = datetime.now().isoformat()
-    time_seek = datetime.now() - timedelta(seconds=time_range)
-    time_seek = time_seek.strftime("%Y-%m-%dT%H:%M:%S")
+    time_end = datetime.now().isoformat()
+    time_start = datetime.now() - timedelta(seconds=time_range)
+    time_start = time_start.strftime("%Y-%m-%dT%H:%M:%S")
     response = table.scan(
-        FilterExpression=Key('log_time').between(time_seek, time_now) & Key('student_id').eq(student_id)
+        FilterExpression=Key('log_time').between(time_start, time_now) & Key('student_id').eq(student_id)
     )
     return response['Items']
 

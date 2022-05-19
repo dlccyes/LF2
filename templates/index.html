@@ -2,37 +2,37 @@
 <html>
 <head>
   <title>LF2</title>
-  <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
   <!-- <script src="{{ url_for('static', filename='helper.js') }}"></script> -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <!-- <link rel="icon" href="https://i.imgur.com/mypR8sN.png"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1>haha</h1>
+<h1>haha</h1>
+<div class="content">
+  <button id="refresh" class="btn">Refresh</button>
+  <div>
+    <p>Attendance: <span id="numAttendance">?</span>/<span id="numStudent">?</span></p>
+  </div>
+</div>
 </body>
 </html>
 <script>
-function getResult(msg, callback){ //to backend
-  processing = true;
-  var objData = {
-    'message': {},
-  };
-  objData['message']['text'] = msg;
+function getData(url, objData, callback){ //to backend
   $.ajax({
-    // type: 'POST',
+    type: 'POST',
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(objData),
-    url: "/test",
+    url: url,
     success: function(result){
-      console.log(result);
       reply_html = '';
       if (!result['success']){ // error
-        // reply_html += "<p>I'm sleeping right now 😴😴<br>Please try again later.</p>";
-        console.log('error')
+        console.log(result['error'])
+      } else {
+        callback(result);
       }
-      callback();
     },
     error: function(jqXHR, textStatus, errorThrown) {
       console.log('error ' + textStatus);
@@ -40,9 +40,25 @@ function getResult(msg, callback){ //to backend
     },
   });
 };
+
+function getOverallAttendance(){
+  var objData = {
+    'time_range': 6000
+  };
+  // objData['message']['text'] = msg;
+  getData('/get_overall_attendance', objData, function(result){
+    console.log(result['num_attendance'], result['num_student']);
+    $('#numAttendance').text(result['num_attendance']);
+    $('#numStudent').text(result['num_student']);
+  });
+};
+
 $(document).ready(function(){
-    getResult('hello', function(){
-        console.log('done');
+    getOverallAttendance();
+    $('#refresh').off('click');
+    $('#refresh').on('click', function(){
+      getOverallAttendance();
     });
+
 });
 </script>
