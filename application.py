@@ -1,5 +1,7 @@
 from flask import Flask, request, abort, render_template, url_for, redirect
 import boto3
+from boto3.dynamodb.conditions import Key, Attr
+from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 
@@ -7,27 +9,47 @@ load_dotenv()
 
 application = Flask(__name__)
 
+if (os.getenv('AWS_ACCESS_KEY_ID')): # use environment variables if exist
+    session = boto3.Session(
+        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+        region_name=os.getenv('REGION_NAME', 'us-west-1')
+    )
+else: # use ~/.aws
+    session = boto3.Session(region_name=os.getenv('REGION_NAME', 'us-west-1'))
+dynamodb = session.resource('dynamodb')
+
 @application.route('/')
 def index():
     return render_template('index.html')
+
+def get_student_attendance(student_id, time_range=600):
+    table = dynamodb.Table('attendance_t')
+    time_now = datetime.now().isoformat()
+    time_seek = datetime.now() - timedelta(seconds=time_range)
+    time_seek = time_seek.strftime("%Y-%m-%dT%H:%M:%S")
+    response = table.scan(
+        FilterExpression=Key('log_time').between(time_seek, time_now) & Key('student_id').eq(student_id)
+    )
+    return response['Items']
+
+def get_emotion(time_range=600):
+    table = dynamodb.Table('emotion_t')
+    time_end = datetime.now().isoformat()
+    time_start = datetime.now() - timedelta(seconds=time_range)
+    time_start = time_start.strftime("%Y-%m-%dT%H:%M:%S")
+    response = table.scan(
+        FilterExpression=Key('log_time').between(time_start, time_end)
+    )
+    return response['Items']
 
 @application.route('/test')
 def test_API():
     result = test_db()
     return {'success':1, 'result': result}
 
-
 def test_db():
     try:
-        if (os.getenv('AWS_ACCESS_KEY_ID')): # use environment variables if exist
-            session = boto3.Session(
-                aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-                aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
-                region_name=os.getenv('REGION_NAME', 'us-west-1')
-            )
-        else: # use ~/.aws
-            session = boto3.Session(region_name=os.getenv('REGION_NAME', 'us-west-1'))
-        dynamodb = session.resource('dynamodb')
         table = dynamodb.Table('test')
         print(table.creation_date_time)
         response = table.get_item(
