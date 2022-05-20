@@ -30,7 +30,7 @@ def get_overall_attendance():
         request_json = request.get_json()
         time_range = request_json['time_range']
         if not time_range:
-            time_range = 600
+            time_range = 10
         table = dynamodb.Table('attendance_t')
         time_start, time_end = get_time_range(time_range)
         # raise Exception(f'time_start: {time_start}, time_end: {time_end}')
@@ -53,6 +53,19 @@ def get_all_students():
     response = table.scan()
     return response
 
+def is_student_present(student_id, time_range=10):
+    table = dynamodb.Table('attendance_t')
+    time_start, time_end = get_time_range(time_range)
+
+    response = table.scan(
+        FilterExpression=Key('log_time').between(time_start, time_end) & Key('student_id').eq(student_id)
+    )
+    is_present = 0
+    print(response)
+    if len(response['Items']) != 0:
+        is_present = 1
+    return is_present
+
 @application.route('/get_student_attendance', methods=['POST'])
 def get_student_attendance():
     """get the attendance data of a specifig student within a time range"""
@@ -60,21 +73,24 @@ def get_student_attendance():
         request_json = request.get_json()
         student_id = request_json['student_id']
         time_range = request_json['time_range']
-        table = dynamodb.Table('attendance_t')
-        time_start, time_end = get_time_range(time_range)
-
-        response = table.scan(
-            FilterExpression=Key('log_time').between(time_start, time_end) & Key('student_id').eq(student_id)
-        )
-        is_present = 0
-        if len(response['Items']) != 0:
-            is_present = 1
+        is_present = is_student_present(student_id, time_range)
         return {'success':1, 'data':{'is_present':is_present}}
     except Exception as e:
         print("something's wrong: ", e)
         return {'success':0, 'error':str(e)}
 
-def get_emotion(time_range=600):
+@application.route('/get_students', methods=['POST'])
+def get_students():
+    request_json = request.get_json()
+    time_range = request_json['time_range']
+    students = get_all_students()['Items']
+    students.sort(key=lambda x: x['student_id'])
+    print(students)
+    for i, student in enumerate(students):
+        students[i]['is_present'] = is_student_present(student['student_id'], time_range)
+    return {'success':1, 'data':students}
+
+def get_emotion(time_range=10):
     table = dynamodb.Table('emotion_t')
     time_start, time_end = get_time_range(time_range)
 

@@ -9,7 +9,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  {% block body %}{% endblock %}
+  {% if request.path != '/' %}
+    <div class="navbar">
+      <a href="{{ url_for('index') }}">Dashboard</a>
+    </div>
+  {% endif %}
+
+  {% block heading %}{% endblock %}
+
+  {% if request.path != '/invalid' %}
+    <div class="input_area">
+      <span>Seek time to how many minutes before?</span>
+      <input type="range" id="timeRange" min='0', max='6000' step='1' value='10'></input>
+      <span><span id="timeRangeVal"></span>m</span>
+    </div>
+  {% endif %}
+
+  <div class="content">
+    {% if request.path != '/invalid' %}
+      <button id="refresh" class="btn">Refresh</button>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </div>
+
 </body>
 </html>
+<script>
+$('#refresh').off('click');
+$('#refresh').on('click', function(){
+  getEverything();
+});
+</script>
 {% block script %}{% endblock %}

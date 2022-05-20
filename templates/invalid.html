@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
-{% block body %}
+
+{% block heading %}
 <h1>Invalid page.</h1>
+{% endblock %}
+
+{% block body %}
 {% if reason %}
   <p>Reason: {{ reason }}</p>
 {% endif %}

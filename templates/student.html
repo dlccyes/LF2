@@ -1,30 +1,46 @@
 {% extends 'base.html' %}
 
-{% block body %}
+{% block heading %}
 <h1>{{ student_id }}</h1>
-<div id="attendance">
-</div>
+{% endblock %}
+
+{% block content %}
+<div id="studentAttendance"></div>
 {% endblock %}
 
   
 {% block script %}
 <script>
-$(document).ready(function(){
-var objData = {
-  'time_range': 6000,
-  'student_id': '{{ student_id }}'
-};
-getData('/get_student_attendance', objData, function(data){
+
+function getStudentAttendance(){
+  var objData = {
+    'time_range': $('#timeRange').val(),
+    'student_id': '{{ student_id }}'
+  };
+  getData('/get_student_attendance', objData, function(data){
     console.log(data);
-    attendanceHtml = '';
+    studentAttendanceHtml = '';
     if(data['is_present']){
-      attendanceHtml += '<p>Present</p>';
+      studentAttendanceHtml += '<p>Present</p>';
     }
     else{
-      attendanceHtml += '<p>Absent</p>';
+      studentAttendanceHtml += '<p>Absent</p>';
     }
-    $('#attendance').html(attendanceHtml);
+    $('#studentAttendance').html(studentAttendanceHtml);
   });
+};
+
+function getEverything(){
+  $('#timeRangeVal').html($('#timeRange').val());
+  getStudentAttendance();
+}
+
+$('#timeRange').on('input', function(){
+  getEverything();
+});
+
+$(document).ready(function(){
+  getEverything();
 });
 </script>
 {% endblock %}

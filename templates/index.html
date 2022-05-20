@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
-{% block body %}
-<h1>haha</h1>
-<div class="content">
-  <button id="refresh" class="btn">Refresh</button>
-  <div>
-    <p>Attendance: <span id="numAttendance">?</span>/<span id="numStudent">?</span></p>
-  </div>
-</div>
+{% block heading %}
+<h1>Current State of the Classroom</h1>
+{% endblock %}
+
+{% block content %}
+  <div id="attendanceDiv"></div>
+  <div id="studentDiv"></div>
 {% endblock %}
 
 {% block script %}
@@ -15,22 +14,57 @@
 
 function getOverallAttendance(){
   var objData = {
-    'time_range': 6000
+    'time_range': $('#timeRange').val()
   };
-  // objData['message']['text'] = msg;
   getData('/get_overall_attendance', objData, function(data){
     console.log(data['num_attendance'], data['num_student']);
-    $('#numAttendance').text(data['num_attendance']);
-    $('#numStudent').text(data['num_student']);
+    $('#attendanceDiv').html('<p>Attendance: '+ data['num_attendance'] +'/'+ data['num_student'] +'</p>')
   });
 };
 
+function getStudents(){
+  var objData = {
+    'time_range': $('#timeRange').val()
+  };
+  getData('/get_students', objData, function(data){
+    console.log(data);
+    var studentHtml = '<ul>';
+    for(var student of data){
+      student_id = student["student_id"];
+      studentHtml += '<li><a href=/std/'+ student_id +'>'+ student_id + ' ' + student['student_name'] + '</a>: ';
+      if(student['is_present']){
+        studentHtml += '<span class="present">Present</span>';
+      }
+      else{
+        studentHtml += '<span class="absent">Absent</span>';
+      }
+      studentHtml += '</li>';
+
+    }
+    studentHtml += '</ul>';
+    $('#studentDiv').html(studentHtml);
+  });
+};
+
+function getEverything(){
+  $('#timeRangeVal').html($('#timeRange').val());
+  getOverallAttendance();
+  getStudents();
+}
+
+$('#timeRange').on('input', function(){
+  getEverything();
+});
+
 $(document).ready(function(){
-    getOverallAttendance();
-    $('#refresh').off('click');
-    $('#refresh').on('click', function(){
-      getOverallAttendance();
-    });
+    $('#attendanceDiv').html('<p>Attendance: ?/?</p>')
+
+    getEverything();
+
+    // $('#refresh').off('click');
+    // $('#refresh').on('click', function(){
+    //   getEverything();
+    // });
 });
 </script>
 {% endblock %}

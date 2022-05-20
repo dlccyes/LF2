@@ -1,6 +1,10 @@
 function getData(url, objData, callback){ //to backend
+  var type = "GET";
+  if (objData != null) {
+    type = "POST";
+  }
   $.ajax({
-    type: 'POST',
+    type: type,
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(objData),
