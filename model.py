@@ -56,6 +56,6 @@ def create_table(table_name, partition_key='log_time', rw_capacity=5):
     print(response)
 
 if __name__ == "__main__":
-    # create_table('emotion_t', 'log_time', 5)
-    # create_table('attendance_t', 'log_time', 5)
-    create_table('student_t', 'student_id', 5)
+    create_table('emotion_t', 'log_time', 5)
+    create_table('attendance_t', 'log_time', 5)
+    # create_table('student_t', 'student_id', 5)

@@ -31,22 +31,24 @@ def get_overall_attendance():
         time_range = request_json['time_range']
         if not time_range:
             time_range = 10
-        table = dynamodb.Table('attendance_t')
-        time_start, time_end = get_time_range(time_range)
-        # raise Exception(f'time_start: {time_start}, time_end: {time_end}')
-        response = table.scan(
-            FilterExpression=Key('log_time').between(time_start, time_end)
-        )
-        student_set = set()
-        for item in response['Items']:
-            student_set.add(item['student_id'])
-        num_attendance = len(student_set)
         num_student = get_all_students()['Count']
-        return {'success':1, 'data':{'num_attendance':num_attendance, 'num_student':num_student}}
+        return {'success':1, 'data':{'num_student':num_student, 'overall_attendance': get_attendance(time_range)}}
 
     except Exception as e:
         print("something's wrong: ", e)
         return {'success':0, 'error':str(e)}
+
+def get_attendance(time_range=10):
+    """return all the attendance data within time range, sorted by time"""
+    table = dynamodb.Table('attendance_t')
+    time_start, time_end = get_time_range(time_range)
+
+    response = table.scan(
+        FilterExpression=Key('log_time').between(time_start, time_end)
+    )
+    attendace = response['Items']
+    attendace.sort(key=lambda x: x['log_time'])
+    return attendace
 
 def get_all_students():
     table = dynamodb.Table('student_t')
@@ -54,15 +56,10 @@ def get_all_students():
     return response
 
 def is_student_present(student_id, time_range=10):
-    table = dynamodb.Table('attendance_t')
-    time_start, time_end = get_time_range(time_range)
-
-    response = table.scan(
-        FilterExpression=Key('log_time').between(time_start, time_end) & Key('student_id').eq(student_id)
-    )
-    is_present = 0
+    response = get_attendance(time_range)
     print(response)
-    if len(response['Items']) != 0:
+    is_present = 0
+    if len(response) > 0 and student_id in response[-1]['student_id']:
         is_present = 1
     return is_present
 

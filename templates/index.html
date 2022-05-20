@@ -17,8 +17,14 @@ function getOverallAttendance(){
     'time_range': $('#timeRange').val()
   };
   getData('/get_overall_attendance', objData, function(data){
-    console.log(data['num_attendance'], data['num_student']);
-    $('#attendanceDiv').html('<p>Attendance: '+ data['num_attendance'] +'/'+ data['num_student'] +'</p>')
+    console.log(data['overall_attendance'], data['num_student']);
+    num_student = data['num_student'];
+    if(data['overall_attendance'].length == 0){
+      num_attendance = 0;
+    }else{
+      num_attendance = data['overall_attendance'][data['overall_attendance'].length-1]['student_id'].length;
+    }
+    $('#attendanceDiv').html('<p>Attendance: '+ num_attendance +'/'+ num_student +'</p>')
   });
 };
 
@@ -51,10 +57,6 @@ function getEverything(){
   getOverallAttendance();
   getStudents();
 }
-
-$('#timeRange').on('input', function(){
-  getEverything();
-});
 
 $(document).ready(function(){
     $('#attendanceDiv').html('<p>Attendance: ?/?</p>')

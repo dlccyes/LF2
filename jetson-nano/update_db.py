@@ -21,18 +21,13 @@ def log_attendance(student_ids):
     """record the input student as attended"""
     table_name = 'attendance_t'
     table = dynamodb.Table(table_name)
-
-    # log_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-
-    with table.batch_writer() as batch:
-        for student_id in student_ids:
-            log_time = datetime.now(timezone(timedelta(hours=8))).isoformat()
-            batch.put_item(
-                Item={
-                        'log_time': log_time,
-                        'student_id': student_id,
-                    }
-            )
+    log_time = datetime.now(timezone(timedelta(hours=8))).isoformat()
+    table.put_item(
+        Item={
+                'log_time': log_time,
+                'student_id': student_ids,
+            }
+    )
 
 def log_emotion(emotion_list):
     """get an array of detected emotions, record to database"""

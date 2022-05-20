@@ -39,5 +39,13 @@ $('#refresh').off('click');
 $('#refresh').on('click', function(){
   getEverything();
 });
+// on value change
+$('#timeRange').on('input', function(){
+  $('#timeRangeVal').html($('#timeRange').val());
+});
+// on mouse release
+$('#timeRange').on('mouseup', function(){
+  getEverything();
+});
 </script>
 {% block script %}{% endblock %}
