@@ -4,6 +4,7 @@
   <title>LF2</title>
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
   <script src="{{ url_for('static', filename='helper.js') }}"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <link rel="icon" href="https://i.imgur.com/mypR8sN.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
   {% if request.path != '/invalid' %}
     <div class="input_area">
       <span>Seek time to how many minutes before?</span>
-      <input type="range" id="timeRange" min='0', max='6000' step='1' value='10'></input>
+      <input type="range" id="timeRange" min='0', max='6000' step='1' value='30'></input>
       <span><span id="timeRangeVal"></span>m</span>
     </div>
   {% endif %}

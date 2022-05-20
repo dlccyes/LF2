@@ -6,6 +6,7 @@
 
 {% block content %}
   <div id="attendanceDiv"></div>
+  <div id="attendanceGraphDiv"></div>
   <div id="studentDiv"></div>
 {% endblock %}
 
@@ -17,14 +18,28 @@ function getOverallAttendance(){
     'time_range': $('#timeRange').val()
   };
   getData('/get_overall_attendance', objData, function(data){
-    console.log(data['overall_attendance'], data['num_student']);
-    num_student = data['num_student'];
-    if(data['overall_attendance'].length == 0){
-      num_attendance = 0;
+    overallAttendance = data['overall_attendance'];
+    numStudent = data['num_student'];
+    console.log(overallAttendance, numStudent);
+    attendanceDataNum = overallAttendance.length;
+    if(attendanceDataNum == 0){
+      numAttendance = 0;
     }else{
-      num_attendance = data['overall_attendance'][data['overall_attendance'].length-1]['student_id'].length;
+      numAttendance = overallAttendance[attendanceDataNum-1]['student_id'].length;
     }
-    $('#attendanceDiv').html('<p>Attendance: '+ num_attendance +'/'+ num_student +'</p>')
+    $('#attendanceDiv').html('<p>Attendance: '+ numAttendance +'/'+ numStudent +'</p>')
+    
+    if(attendanceDataNum < 2){
+      $('#attendanceGraphDiv').html('<p>Not enough data to show graph.</p>');
+    }else{
+      $('#attendanceGraphDiv').html('');
+      attandanceVsTimeArr = [];
+      for(var item of overallAttendance){
+        attandanceVsTimeArr.push([new Date(item['log_time']), item['student_id'].length]);
+      }
+      attandanceVsTimeArr.sort();
+      drawLine(attandanceVsTimeArr, 'attendanceGraphDiv', 'log time', 'num of students');
+    }
   });
 };
 

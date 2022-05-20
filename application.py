@@ -38,7 +38,7 @@ def get_overall_attendance():
         print("something's wrong: ", e)
         return {'success':0, 'error':str(e)}
 
-def get_attendance(time_range=10):
+def get_attendance(time_range=30):
     """return all the attendance data within time range, sorted by time"""
     table = dynamodb.Table('attendance_t')
     time_start, time_end = get_time_range(time_range)
@@ -55,7 +55,7 @@ def get_all_students():
     response = table.scan()
     return response
 
-def is_student_present(student_id, time_range=10):
+def is_student_present(student_id, time_range=30):
     response = get_attendance(time_range)
     print(response)
     is_present = 0
@@ -70,8 +70,16 @@ def get_student_attendance():
         request_json = request.get_json()
         student_id = request_json['student_id']
         time_range = request_json['time_range']
-        is_present = is_student_present(student_id, time_range)
-        return {'success':1, 'data':{'is_present':is_present}}
+        if not time_range:
+            time_range = 30
+        response = get_attendance(time_range)
+        student_attendance = []
+        for item in response:
+            is_present = 0
+            if student_id in item['student_id']:
+                is_present = 1
+            student_attendance.append([item['log_time'], is_present])
+        return {'success':1, 'data':{'student_attendance':student_attendance}}
     except Exception as e:
         print("something's wrong: ", e)
         return {'success':0, 'error':str(e)}
@@ -80,6 +88,8 @@ def get_student_attendance():
 def get_students():
     request_json = request.get_json()
     time_range = request_json['time_range']
+    if not time_range:
+        time_range = 30
     students = get_all_students()['Items']
     students.sort(key=lambda x: x['student_id'])
     print(students)
@@ -87,7 +97,7 @@ def get_students():
         students[i]['is_present'] = is_student_present(student['student_id'], time_range)
     return {'success':1, 'data':students}
 
-def get_emotion(time_range=10):
+def get_emotion(time_range=30):
     table = dynamodb.Table('emotion_t')
     time_start, time_end = get_time_range(time_range)
 

@@ -6,6 +6,7 @@
 
 {% block content %}
 <div id="studentAttendance"></div>
+<div id="attendanceGraphDiv"></div>
 {% endblock %}
 
   
@@ -19,14 +20,34 @@ function getStudentAttendance(){
   };
   getData('/get_student_attendance', objData, function(data){
     console.log(data);
+    studentAttendance = data['student_attendance'];
+    attendanceDataNum = studentAttendance.length;
+    // get the most recent attendance data
+    if(attendanceDataNum == 0){
+      isPresent = 0;
+    }else{
+      isPresent = studentAttendance[attendanceDataNum-1][1];
+    }
     studentAttendanceHtml = '';
-    if(data['is_present']){
+    if(isPresent){
       studentAttendanceHtml += '<p>Present</p>';
     }
     else{
       studentAttendanceHtml += '<p>Absent</p>';
     }
     $('#studentAttendance').html(studentAttendanceHtml);
+
+    if(attendanceDataNum < 2){
+      $('#attendanceGraphDiv').html('<p>Not enough data to show graph.</p>');
+    }else{
+      $('#attendanceGraphDiv').html('');
+      attandanceVsTimeArr = [];
+      for(var item of studentAttendance){
+        attandanceVsTimeArr.push([new Date(item[0]), item[1]]);
+      }
+      attandanceVsTimeArr.sort();
+      drawLine(attandanceVsTimeArr, 'attendanceGraphDiv', 'log time', 'Is present?');
+    }
   });
 };
 
