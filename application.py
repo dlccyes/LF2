@@ -161,7 +161,7 @@ def test_db():
 
 @application.errorhandler(404)
 def page_not_found(e):
-    return render_template('invalid.html')
+    return render_template('invalid.html', invalid=1)
 
 if __name__ == "__main__":
     # application.run()

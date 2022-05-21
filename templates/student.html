@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'data_blade.html' %}
 
 {% block heading %}
 <h1>{{ student_id }}</h1>
@@ -8,9 +8,8 @@
 <div id="studentAttendance"></div>
 <div id="attendanceGraphDiv"></div>
 {% endblock %}
-
   
-{% block script %}
+{% block data_script %}
 <script>
 
 function getStudentAttendance(){

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LF2</title>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='helper.js') }}"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <link rel="icon" href="https://i.imgur.com/mypR8sN.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  {% if request.path != '/' %}
+    <div class="navbar">
+      <a href="{{ url_for('index') }}">Dashboard</a>
+    </div>
+  {% endif %}
+
+  {% block heading %}{% endblock %}
+
+  {% block before_content %}{% endblock %}
+
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+
+  <div id="sauceDiv" class="">
+    <a href="https://github.com/dlccyes/LF2" target="_blank">
+        <p>Github&nbsp</p>
+    </a>
+    <a href="/doc" target="_blank">
+        <p>| doc</p>
+    </a>
+  </div>
+
+</body>
+</html>
+{% block script %}{% endblock %}

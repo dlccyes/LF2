@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'data_blade.html' %}
 
 {% block heading %}
 <h1>Current State of the Classroom</h1>
@@ -15,7 +15,7 @@
   <div id="studentDiv"></div>
 {% endblock %}
 
-{% block script %}
+{% block data_script %}
 <script>
 function getOverallAttendance(){
   var objData = {

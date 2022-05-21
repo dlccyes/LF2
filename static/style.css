@@ -85,6 +85,17 @@ input[type=text] {
   color: #000;
   cursor: pointer;
 }
+#sauceDiv {
+  padding: 1px 20px;
+  left: 50%;
+  position: absolute;
+  display: flex;
+  transform: translate(-50%);
+}
+#sauceDiv > a {
+  display:flex; 
+  text-decoration:none;
+}
 @media (max-width: 800px) {
   body {
     width: 80%;

@@ -1,0 +1,44 @@
+{% extends 'base_blade.html' %}
+
+{% block heading %}{% endblock %}
+
+{% block before_content %}
+  <div class="input_area">
+    <span>Seek time to how many minutes before?</span>
+    <input type="range" id="timeRange" min='0', max='6000' step='1' value='30'></input>
+    <span><span id="timeRangeVal"></span>m</span>
+  </div>
+  <button id="refresh" class="btn">Refresh</button>
+{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block script %}
+{% block data_script %}{% endblock %}
+<script>
+  $('#refresh').off('click');
+  $('#refresh').on('click', function(){
+    getEverything();
+  });
+  // on value change
+  $('#timeRange').on('input', function(){
+    $('#timeRangeVal').html($('#timeRange').val());
+  });
+  // on mouse release
+  $('#timeRange').on('mouseup', function(){
+    getEverything();
+  });
+  var resizing = 0;
+  $(window).resize(function(){ // mainly for redrawing charts responsively
+    // prevent multiple calls
+    if(resizing){
+      return;
+    }
+    resizing = 1;
+    setTimeout(function(){
+      getEverything();
+      resizing = 0;
+    }, 500);
+  });
+</script>
+{% endblock %}
