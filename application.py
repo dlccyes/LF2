@@ -164,7 +164,16 @@ def page_not_found(e):
     return render_template('invalid.html')
 
 if __name__ == "__main__":
+    # application.run()
     # port = int(os.environ.get('PORT', 5000))
-    # app.run(host='0.0.0.0', port=port)
-    application.debug = True
-    application.run()
+    # application.run(host='0.0.0.0', port=port)
+    env = os.getenv('ENV', 'aws')
+    if(env == 'aws'):
+        application.run()
+    elif(env == 'heroku'):
+        port = int(os.environ.get('PORT', 5000))
+        application.run(host='0.0.0.0', port=port)
+    else: #local
+        application.debug = True
+        application.run(host='0.0.0.0', port=5000)
+

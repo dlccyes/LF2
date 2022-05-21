@@ -1,0 +1,9 @@
+.env
+__pycache__/
+venv/
+Procfile
+
+# Elastic Beanstalk Files
+# .elasticbeanstalk/*
+# !.elasticbeanstalk/*.cfg.yml
+# !.elasticbeanstalk/*.global.yml
