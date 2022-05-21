@@ -3,6 +3,7 @@
 Network Lab Final Project
 
 See it in action!  
+
 - <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/>  
 - <https://classroom-helper-lf2.herokuapp.com/> (herkou backup ver.)
 
@@ -45,6 +46,8 @@ Please refer to [`jetson-nano/generate_data.py`](jetson-nano/generate_data.py) f
 
 ## Emotion Recognition
 
+![](https://i.imgur.com/GSGXw4c.png)
+
 ### Types of Emotions
 
 - surprise
@@ -56,3 +59,6 @@ Please refer to [`jetson-nano/generate_data.py`](jetson-nano/generate_data.py) f
 - contempt
 - anger
 
+## Face Recognition
+
+![](https://i.imgur.com/7W5aEJm.png)

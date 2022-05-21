@@ -8,8 +8,8 @@
 }
 body {
   font-family: Montserrat;
-  background-color: #000;
-  color: #fff;
+  /* background-color: #000; */
+  /* color: #fff; */
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0%);
@@ -29,7 +29,7 @@ img {
   border-radius: 15px;
 }
 .btn {
-  background-color: #40bc06;
+  /* background-color: #40bc06; */
   color: #fff;
   border-radius: 500px;
   transition-duration: .3s;
@@ -52,7 +52,7 @@ img {
   cursor: not-allowed;
 }
 a {
-  color: #ffcbcb;
+  /* color: #ffcbcb; */
   text-decoration: none;
   font-weight: 500;
 }
@@ -95,6 +95,13 @@ input[type=text] {
 #sauceDiv > a {
   display:flex; 
   text-decoration:none;
+}
+#night-btn{
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  z-index: 10;
+  right: 0px;
 }
 @media (max-width: 800px) {
   body {

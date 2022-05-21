@@ -1,3 +1,8 @@
+function getCookie(name){ // from github copilot
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
 function getData(url, objData, callback){ //to backend
   var type = "GET";
   if (objData != null) {
@@ -25,6 +30,7 @@ function getData(url, objData, callback){ //to backend
 };
 
 function drawLine(dataArr, id, xName, yName, yAx=null){
+  $('#'+id).html('');
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(function(){
     var data = new google.visualization.DataTable();
@@ -33,24 +39,32 @@ function drawLine(dataArr, id, xName, yName, yAx=null){
     for(var date of dataArr){
         data.addRow([new Date(date[0]), date[1]]);
     }
-
+    var mainColor;
+    if(night){
+      mainColor = '#fff';
+      lineColor = '#ffd8d2';
+    }else{
+      mainColor = '#000';
+      lineColor = '#5692f0';
+    }
     var options = {
       width: 'auto', //1200
       height: '300', //500
-      series:{0:{color:'#ffd8d2'}}, // color of the line
+      series:{0:{color:lineColor}}, // color of the line
       backgroundColor: {fill:'transparent',stroke:'transparent'},
-      chartArea: {backgroundColor:{fill:'transparent',stroke:'#fff'}},
+      chartArea: {backgroundColor:{fill:'transparent',stroke:mainColor}},
       chart: {
         title: '# students vs. time',
       },
       lineWidth: 4,
       // curveType: 'function', // line smoothing
-      // tooltip:{textStyle:{color:'#fff'}},
+      // tooltip:{textStyle:{color:mainColor}},
       legend:{textStyle: {color:'transparent'}},
+
       hAxis: { //x-axis
         title: xName,
-        titleTextStyle:{color:"#fff", fontName:"Montserrat", fontSize:18},
-        textStyle:{color:'#fff'},
+        titleTextStyle:{color:mainColor, fontName:"Montserrat", fontSize:18},
+        textStyle:{color:mainColor},
         baselineColor:'transparent',
         gridlines:{color:'transparent'},
         minorGridlines:{color:'transparent'},
@@ -59,11 +73,11 @@ function drawLine(dataArr, id, xName, yName, yAx=null){
       },
       vAxis: { //y-axis
         title: yName, 
-        titleTextStyle:{color:"#fff", fontName:"Montserrat", fontSize:18},
+        titleTextStyle:{color:mainColor, fontName:"Montserrat", fontSize:18},
         viewWindow: {min:0},
-        textStyle:{color:'#fff'},
+        textStyle:{color:mainColor},
         baselineColor:'transparent',
-        gridlines:{color:'#fff',multiple:1},
+        gridlines:{color:mainColor,multiple:1},
         minorGridlines:{color:'transparent', multiple:0.5, minSpacing:0},
       }
     };
@@ -81,7 +95,13 @@ function drawLine(dataArr, id, xName, yName, yAx=null){
 function drawCloud(data, id){
   $('#'+id).html('');
   anychart.onDocumentReady(function () {
-    anychart.theme(anychart.themes.darkGlamour);
+    // night=0;
+    console.log('now is' + night);
+    if(night){
+      anychart.theme(anychart.themes.darkGlamour);
+    }else{
+      anychart.theme(null);
+    }
     // anychart.theme(anychart.themes.darkTurquoise);
 
     var chart = anychart.tagCloud(data);
@@ -100,7 +120,7 @@ function drawCloud(data, id){
     // display chart
     chart.container(id);
     chart.draw();
-    $('.anychart-credits').html('<span class="anychart-credits-text">made with AnyChart</span>') 
+    // $('.anychart-credits').html('<span class="anychart-credits-text">made with AnyChart</span>') 
+    $('.anychart-credits').html('') 
   });
-
 }

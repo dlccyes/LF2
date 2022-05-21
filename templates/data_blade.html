@@ -31,15 +31,18 @@ $(document).ready(function(){
     getEverything();
   });
   // on value change
+  $('#timeRange').off('input');
   $('#timeRange').on('input', function(){
     $('#timeRangeVal').html($('#timeRange').val());
   });
   // on mouse release
+  $('#timeRange').off('mouseup');
   $('#timeRange').on('mouseup', function(){
     getEverything();
   });
   var resizing = 0;
-  $(window).resize(function(){ // mainly for redrawing charts responsively
+  $(window).off('resize');
+  $(window).on('resize', function(){ // mainly for redrawing charts responsively
     // prevent multiple calls
     if(resizing){
       return;

@@ -8,33 +8,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- my own files -->
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_b.css') }}" id="night-css">
   <script src="{{ url_for('static', filename='helper.js') }}"></script>
 </head>
 {% block head %}{% endblock %}
 <body>
+  <span id="light"></span>
+  <span id="night-btn">🌙</span>
   {% if request.path != '/' %}
-    <div class="navbar">
-      <a href="{{ url_for('index') }}">Dashboard</a>
-    </div>
+  <div class="navbar">
+    <a href="{{ url_for('index') }}">Dashboard</a>
+  </div>
   {% endif %}
-
+  
   {% block heading %}{% endblock %}
-
+  
   {% block before_content %}{% endblock %}
-
+  
   <div class="content">
     {% block content %}{% endblock %}
   </div>
-
+  
   <div id="sauceDiv" class="">
     <a href="https://github.com/dlccyes/LF2" target="_blank">
-        <p>Github&nbsp</p>
+      <p>Github&nbsp</p>
     </a>
     <a href="/doc" target="_blank">
-        <p>| doc</p>
+      <p>| doc</p>
     </a>
   </div>
-
+  
 </body>
 </html>
+<script>
+// get night from cookie
+document.cookie = "SameSite=Lax";
+
+var night = parseInt(getCookie('night'));
+night = night || night == 0  ? night : 1;
+
+var initPos = [-1,-1];
+var lightBlur = 11;
+var lightSpread = 0;
+var lightAlt = 20;
+var style_b_path  = "{{ url_for('static', filename='style_b.css') }}"
+var style_w_path  = "{{ url_for('static', filename='style_w.css') }}"
+doEverything(function(){});
+function doEverything(callback){
+  if(night){
+    $('#day-css').remove();
+    $('head').append('<link rel="stylesheet" href='+style_b_path+' id="night-css">');
+    // $("#light").css({top: $('#night-btn').offset().top+12, left: $('#night-btn').offset().left+11});
+    $('#night-btn').html('🌝');
+    $('#light').show();
+    $('#light').css('box-shadow','0px 0px '+(lightBlur+lightAlt)+'px '+(lightSpread+lightAlt)+'px #ffecb4');
+  }else{
+    $('#night-css').remove();
+    $('#light').hide();
+    $('head').append('<link rel="stylesheet" href='+style_w_path+' id="day-css">');
+    $('#night-btn').html('🌞');
+  }
+  callback();
+}
+$('#night-btn').off('click');
+$('#night-btn').on('click', function(e){ // change theme
+  night = night ? 0 : 1;
+  doEverything(function(){
+    getEverything();
+  });
+  document.cookie = "night="+night;
+});
+
+$('#night-btn').off('mouseenter');
+$('#night-btn').on('mouseenter', function(){ //change to face on hover
+  //DOMMouseScroll = function(){};
+  scrollpos = $(window).scrollTop();
+  // change moon light size on scroll
+  // only work in firefox
+  $(window).off('DOMMouseScroll');
+  $(window).on('DOMMouseScroll',function(e){
+    if(night){
+      $('body').css("overflow","hidden");
+      scroll = -e.originalEvent.detail;
+      lightAlt += scroll*0.4;
+      lightAlt = Math.max(0, lightAlt);
+      $('#light').css('box-shadow','0px 0px '+(lightBlur+lightAlt)+'px '+(lightSpread+lightAlt)+'px #ffecb4');
+    }
+  });
+  if(night){
+    $("#night-btn").html('🌝');
+  }else{
+    $("#night-btn").html('🌞');
+  }
+});
+$('#night-btn').off('mouseleave');
+$('#night-btn').on('mouseleave', function(){ //change back on mouse leave
+  $(window).off('DOMMouseScroll');
+  $(window).on('DOMMouseScroll',function(e){
+    $('body').css("overflow","visible");
+  });
+  if(night){
+    $("#night-btn").html('🌙');
+  }else{
+    $("#night-btn").html('⛅');
+  }
+});
+</script>
 {% block script %}{% endblock %}
