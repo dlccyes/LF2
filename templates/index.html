@@ -11,6 +11,7 @@
   <h2>Classroom Vibe</h2>
   <div id="currentEmotionDiv"></div>
   <div id="emotionGraphDiv"></div>
+  <div id="emotionCloudDiv"></div>
   <h2>Specific Students</h2>
   <div id="studentDiv"></div>
 {% endblock %}
@@ -73,12 +74,18 @@ function getStudents(){
 
 // calculate average emotion score given the input json, on the scale of 5
 function calEmoScore(emoJson){
-  var emoScoreMap = {'happy': 5, 'neutral': 3, 'sad': 1};
-  emoScore = 0;
+  var emoScoreMap = {'surprise':5, 'happy': 5, 'neutral': 3, 'sad': 2, 'fear':0, 'disgust':1, 'contempt':1, 'anger':0};
+  var emoScore = 0;
   var emotionDataNum = 0;
   for(var emo in emoJson){ // a json
+    if(!emoScoreMap[emo]){
+      continue;
+    }
     emotionDataNum += emoJson[emo].length;
     emoScore += emoScoreMap[emo]*emoJson[emo].length;
+  }
+  if(emotionDataNum == 0){
+    return null;
   }
   emoScore /= emotionDataNum;
   return emoScore;
@@ -97,7 +104,7 @@ function getEmotion(){
       currentEmotionDivHtml += '<p>No emotion data.</p>';
     }else{
       emoScore = calEmoScore(emotionData[emotionDataNum-1]['emotions']);
-      currentEmotionDivHtml += '<p>Current vibe: '+ emoScore +' out of 5</p>';
+      currentEmotionDivHtml += '<p>Current classroom positivity: '+ emoScore +' out of 5</p>';
     }
     $('#currentEmotionDiv').html(currentEmotionDivHtml);
     if(emotionDataNum < 2){
@@ -105,11 +112,24 @@ function getEmotion(){
     }else{
       $('#emotionGraphDiv').html('');
       emotionVsTimeArr = [];
+      emotionFreqJson = {};
       for(var item of emotionData){
-        emotionVsTimeArr.push([new Date(item['log_time']), calEmoScore(item['emotions'])]);
+        emotionJson = item['emotions'];
+        emotionVsTimeArr.push([new Date(item['log_time']), calEmoScore(emotionJson)]);
+        for(var emo in emotionJson){
+          if(!emotionFreqJson[emo]){
+            emotionFreqJson[emo] = 0;
+          }
+          emotionFreqJson[emo] += emotionJson[emo].length;
+        }
       }
       // emotionVsTimeArr.sort();
-      drawLine(emotionVsTimeArr, 'emotionGraphDiv', 'log time', 'vibe', yAx=[0, 5, 1]);
+      drawLine(emotionVsTimeArr, 'emotionGraphDiv', 'log time', 'positivity', yAx=[0, 5, 1]);
+      emotionCloudData = [];
+      for(var emo in emotionFreqJson){ // convert into anychart data format
+        emotionCloudData.push({'x':emo, 'value':emotionFreqJson[emo]});
+      }
+      drawCloud(emotionCloudData, 'emotionCloudDiv');
     }
   });
 };
@@ -123,14 +143,7 @@ function getEverything(){
 
 
 $(document).ready(function(){
-    // $('#currentAttendanceDiv').html('<p>Attendance: ?/?</p>')
-
     getEverything();
-
-    // $('#refresh').off('click');
-    // $('#refresh').on('click', function(){
-    //   getEverything();
-    // });
 });
 </script>
 {% endblock %}

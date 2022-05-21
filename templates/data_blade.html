@@ -1,5 +1,14 @@
 {% extends 'base_blade.html' %}
 
+{% block head %}
+  <!-- graphing libraries -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.10.0/themes/dark_glamour.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.10.0/themes/dark_turquoise.min.js"></script>
+{% endblock %}
+
 {% block heading %}{% endblock %}
 
 {% block before_content %}
@@ -16,6 +25,7 @@
 {% block script %}
 {% block data_script %}{% endblock %}
 <script>
+$(document).ready(function(){
   $('#refresh').off('click');
   $('#refresh').on('click', function(){
     getEverything();
@@ -40,5 +50,6 @@
       resizing = 0;
     }, 500);
   });
+});
 </script>
 {% endblock %}

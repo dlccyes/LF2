@@ -1,9 +1,10 @@
 from update_db import log_emotion, log_attendance
 import random
 
-emotions = ['happy', 'sad', 'neutral']
-
-log_emotion([[random.choice(emotions),random.random()] for i in range(random.randint(1,4))])
+emotions = ['anger', 'contempt', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+emotion_logged = [[random.choice(emotions),random.random()] for i in range(random.randint(1,5))]
+print(emotion_logged)
+log_emotion(emotion_logged)
 
 student_ids = ['B08901000', 'B08901001', 'B08901002', 'B08901003', 'B08901004']
 n = len(student_ids)
