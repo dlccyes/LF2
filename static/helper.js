@@ -24,7 +24,7 @@ function getData(url, objData, callback){ //to backend
   });
 };
 
-function drawLine(dataArr, id, xName, yName){
+function drawLine(dataArr, id, xName, yName, yAx=null){
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(function(){
   // function drawChart () {
@@ -39,35 +39,42 @@ function drawLine(dataArr, id, xName, yName){
 
       var options = {
           width: 'auto', //1200
-          height: 'auto', //500
-          series:{0:{color:'#ffd8d2'}},
+          height: '300', //500
+          series:{0:{color:'#ffd8d2'}}, // color of the line
           backgroundColor: {fill:'transparent',stroke:'transparent'},
           chartArea: {backgroundColor:{fill:'transparent',stroke:'#fff'}},
           chart: {
             title: '# students vs. time',
           },
+          lineWidth: 4,
           // curveType: 'function', // line smoothing
           // tooltip:{textStyle:{color:'#fff'}},
           legend:{textStyle: {color:'transparent'}},
           hAxis: { //x-axis
               title: xName,
-              titleTextStyle:{color:"#fff", fontName:"verdana", fontSize:18},
+              titleTextStyle:{color:"#fff", fontName:"Montserrat", fontSize:18},
               textStyle:{color:'#fff'},
               baselineColor:'transparent',
               gridlines:{color:'transparent'},
               minorGridlines:{color:'transparent'},
+
               // format: 'mm:ss',
           },
           vAxis: { //y-axis
               title: yName, 
-              titleTextStyle:{color:"#fff", fontName:"verdana", fontSize:18},
+              titleTextStyle:{color:"#fff", fontName:"Montserrat", fontSize:18},
               viewWindow: {min:0},
               textStyle:{color:'#fff'},
               baselineColor:'transparent',
-              gridlines:{color:'transparent',multiple:1},
-              // minorGridlines:{color:'transparent',minSpacing:0}
+              gridlines:{color:'#fff',multiple:1},
+              minorGridlines:{color:'transparent', multiple:0.5, minSpacing:0},
           }
       };
+      if(yAx){
+        console.log(Math.ceil((yAx[1]-yAx[0])/yAx[2]));
+        options.vAxis.viewWindow = {min:yAx[0], max:yAx[1]};
+        options.vAxis.gridlines.count = Math.ceil((yAx[1]-yAx[0])/yAx[2]);
+      }
 
       var chart = new google.visualization.LineChart(document.getElementById(id));
 

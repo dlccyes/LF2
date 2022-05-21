@@ -48,5 +48,17 @@ $('#timeRange').on('input', function(){
 $('#timeRange').on('mouseup', function(){
   getEverything();
 });
+var resizing = 0;
+$(window).resize(function(){ // mainly for redrawing charts responsively
+  // prevent multiple calls
+  if(resizing){
+    return;
+  }
+  resizing = 1;
+  setTimeout(function(){
+    getEverything();
+    resizing = 0;
+  }, 500);
+});
 </script>
 {% block script %}{% endblock %}

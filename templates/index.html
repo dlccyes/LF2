@@ -5,14 +5,18 @@
 {% endblock %}
 
 {% block content %}
-  <div id="attendanceDiv"></div>
+  <h2>Attendance</h2>
+  <div id="currentAttendanceDiv"></div>
   <div id="attendanceGraphDiv"></div>
+  <h2>Classroom Vibe</h2>
+  <div id="currentEmotionDiv"></div>
+  <div id="emotionGraphDiv"></div>
+  <h2>Specific Students</h2>
   <div id="studentDiv"></div>
 {% endblock %}
 
 {% block script %}
 <script>
-
 function getOverallAttendance(){
   var objData = {
     'time_range': $('#timeRange').val()
@@ -27,18 +31,18 @@ function getOverallAttendance(){
     }else{
       numAttendance = overallAttendance[attendanceDataNum-1]['student_id'].length;
     }
-    $('#attendanceDiv').html('<p>Attendance: '+ numAttendance +'/'+ numStudent +'</p>')
+    $('#currentAttendanceDiv').html('<p>Current attendance: '+ numAttendance +'/'+ numStudent +'</p>')
     
     if(attendanceDataNum < 2){
-      $('#attendanceGraphDiv').html('<p>Not enough data to show graph.</p>');
+      $('#attendanceGraphDiv').html('<p>Not enough data to show attendance vs. time graph.</p>');
     }else{
       $('#attendanceGraphDiv').html('');
       attandanceVsTimeArr = [];
       for(var item of overallAttendance){
         attandanceVsTimeArr.push([new Date(item['log_time']), item['student_id'].length]);
       }
-      attandanceVsTimeArr.sort();
-      drawLine(attandanceVsTimeArr, 'attendanceGraphDiv', 'log time', 'num of students');
+      // attandanceVsTimeArr.sort();
+      drawLine(attandanceVsTimeArr, 'attendanceGraphDiv', 'log time', 'num of students', yAx=[0, numStudent, 1]);
     }
   });
 };
@@ -67,14 +71,59 @@ function getStudents(){
   });
 };
 
+// calculate average emotion score given the input json, on the scale of 5
+function calEmoScore(emoJson){
+  var emoScoreMap = {'happy': 5, 'neutral': 3, 'sad': 1};
+  emoScore = 0;
+  var emotionDataNum = 0;
+  for(var emo in emoJson){ // a json
+    emotionDataNum += emoJson[emo].length;
+    emoScore += emoScoreMap[emo]*emoJson[emo].length;
+  }
+  emoScore /= emotionDataNum;
+  return emoScore;
+}
+
+function getEmotion(){
+  var objData = {
+    'time_range': $('#timeRange').val()
+  };
+  getData('/get_emotion', objData, function(data){
+    console.log(data);
+    emotionData = data['emotion'];
+    emotionDataNum = emotionData.length;
+    var currentEmotionDivHtml = '';
+    if(emotionDataNum == 0){
+      currentEmotionDivHtml += '<p>No emotion data.</p>';
+    }else{
+      emoScore = calEmoScore(emotionData[emotionDataNum-1]['emotions']);
+      currentEmotionDivHtml += '<p>Current vibe: '+ emoScore +' out of 5</p>';
+    }
+    $('#currentEmotionDiv').html(currentEmotionDivHtml);
+    if(emotionDataNum < 2){
+      $('#emotionGraphDiv').html('<p>Not enough data to show vibe vs. time graph.</p>');
+    }else{
+      $('#emotionGraphDiv').html('');
+      emotionVsTimeArr = [];
+      for(var item of emotionData){
+        emotionVsTimeArr.push([new Date(item['log_time']), calEmoScore(item['emotions'])]);
+      }
+      // emotionVsTimeArr.sort();
+      drawLine(emotionVsTimeArr, 'emotionGraphDiv', 'log time', 'vibe', yAx=[0, 5, 1]);
+    }
+  });
+};
+
 function getEverything(){
   $('#timeRangeVal').html($('#timeRange').val());
   getOverallAttendance();
   getStudents();
+  getEmotion();
 }
 
+
 $(document).ready(function(){
-    $('#attendanceDiv').html('<p>Attendance: ?/?</p>')
+    // $('#currentAttendanceDiv').html('<p>Attendance: ?/?</p>')
 
     getEverything();
 

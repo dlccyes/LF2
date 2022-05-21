@@ -97,14 +97,27 @@ def get_students():
         students[i]['is_present'] = is_student_present(student['student_id'], time_range)
     return {'success':1, 'data':students}
 
+@application.route('/get_emotion', methods=['POST'])
 def get_emotion(time_range=30):
-    table = dynamodb.Table('emotion_t')
-    time_start, time_end = get_time_range(time_range)
+    try:
+        request_json = request.get_json()
+        time_range = request_json['time_range']
+        if not time_range:
+            time_range = 30
 
-    response = table.scan(
-        FilterExpression=Key('log_time').between(time_start, time_end)
-    )
-    return response['Items']
+        table = dynamodb.Table('emotion_t')
+        time_start, time_end = get_time_range(time_range)
+
+        response = table.scan(
+            FilterExpression=Key('log_time').between(time_start, time_end)
+        )
+        print(response)
+        emotions = response['Items']
+        emotions.sort(key=lambda x: x['log_time'])
+        return {'success':1, 'data':{'emotion':emotions}}
+    except Exception as e:
+        print("something's wrong: ", e)
+        return {'success':0, 'error':str(e)}
 
 @application.route('/std/<student_id>')
 def student_page(student_id):
