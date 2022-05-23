@@ -17,3 +17,12 @@ a{
 .btn {
   background-color: #40bc06;
 }
+.btn:hover {
+  background-color: #42d275;
+}
+input[type=range] {
+  background: #ffb4b4c9;
+}
+input[type="range"]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb{
+  background:rgb(255, 255, 255);
+}

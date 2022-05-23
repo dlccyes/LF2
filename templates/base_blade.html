@@ -41,11 +41,10 @@
 </body>
 </html>
 <script>
+// document.cookie = "SameSite=Lax";
+  
 // get night from cookie
-document.cookie = "SameSite=Lax";
-
-var night = parseInt(getCookie('night'));
-night = night || night == 0  ? night : 1;
+var night = parseInt(getCookie('night', 1));
 
 var initPos = [-1,-1];
 var lightBlur = 11;
@@ -53,7 +52,13 @@ var lightSpread = 0;
 var lightAlt = 20;
 var style_b_path  = "{{ url_for('static', filename='style_b.css') }}"
 var style_w_path  = "{{ url_for('static', filename='style_w.css') }}"
-doEverything(function(){});
+doEverything(function(){
+  if(night){
+    $("#night-btn").html('🌙');
+  }else{
+    $("#night-btn").html('⛅');
+  }
+});
 function doEverything(callback){
   if(night){
     $('#day-css').remove();
@@ -75,8 +80,8 @@ $('#night-btn').on('click', function(e){ // change theme
   night = night ? 0 : 1;
   doEverything(function(){
     getEverything();
+    setCookie('night', night);
   });
-  document.cookie = "night="+night;
 });
 
 $('#night-btn').off('mouseenter');

@@ -93,7 +93,7 @@ function calEmoScore(emoJson){
 
 function getEmotion(){
   var objData = {
-    'time_range': $('#timeRange').val()
+    'time_range': timeRange,
   };
   getData('/get_emotion', objData, function(data){
     console.log(data);
@@ -108,7 +108,10 @@ function getEmotion(){
     }
     $('#currentEmotionDiv').html(currentEmotionDivHtml);
     if(emotionDataNum < 2){
-      $('#emotionGraphDiv').html('<p>Not enough data to show vibe vs. time graph.</p>');
+      $('#emotionGraphDiv').html('<p>Not enough data to show emotion graph.</p>');
+      $('#emotionCloudDiv').empty();
+      // for some reason this causes lag
+      // $('#emotionCloudDiv').html('<p>Not enough data to show emotion cloud.</p>');
     }else{
       $('#emotionGraphDiv').html('');
       emotionVsTimeArr = [];

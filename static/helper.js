@@ -1,7 +1,21 @@
-function getCookie(name){ // from github copilot
-  var value = "; " + document.cookie;
-  var parts = value.split("; " + name + "=");
-  if (parts.length == 2) return parts.pop().split(";").shift();
+function getCookie(cookieName, defaultVal){ // from github copilot
+  cookie = document.cookie;
+  idxStart = cookie.search(cookieName+'=');
+  if(idxStart == -1){
+    return defaultVal;
+  }
+  idxStart += cookieName.length + 1
+  idxEnd = idxStart;
+  while(idxEnd < cookie.length-1){
+    if(cookie[idxEnd] == ';'){
+      break;
+    }
+    idxEnd++;
+  }
+  return cookie.slice(idxStart, idxEnd);
+}
+function setCookie(cookieName, newValue){
+  document.cookie = cookieName + "=" + newValue + '; domain=' + window.location.hostname + '; path=/';
 }
 function getData(url, objData, callback){ //to backend
   var type = "GET";
@@ -30,7 +44,7 @@ function getData(url, objData, callback){ //to backend
 };
 
 function drawLine(dataArr, id, xName, yName, yAx=null){
-  $('#'+id).html('');
+  $('#'+id).empty();
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(function(){
     var data = new google.visualization.DataTable();
@@ -93,7 +107,7 @@ function drawLine(dataArr, id, xName, yName, yAx=null){
   });
 }
 function drawCloud(data, id){
-  $('#'+id).html('');
+  $('#'+id).empty();
   anychart.onDocumentReady(function () {
     // night=0;
     console.log('now is' + night);

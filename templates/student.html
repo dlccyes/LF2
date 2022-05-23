@@ -14,7 +14,7 @@
 
 function getStudentAttendance(){
   var objData = {
-    'time_range': $('#timeRange').val(),
+    'time_range': timeRange,
     'student_id': '{{ student_id }}'
   };
   getData('/get_student_attendance', objData, function(data){

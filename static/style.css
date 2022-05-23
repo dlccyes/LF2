@@ -41,9 +41,9 @@ img {
   padding: 10px;
   margin: 2%;
 }
-.btn:hover {
-  background-color: #42d275;
-}
+/* .btn:hover { */
+  /* background-color: #42d275; */
+/* } */
 .btn:not(:disabled):active {
   opacity: 0.8;
 }
@@ -59,14 +59,48 @@ a {
 a:hover {
   text-decoration: underline;
 }
+.row {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+input[type=range] {
+  top: 14px;
+  position: relative;
+  margin-right: 13px;
+
+  -webkit-appearance: none;
+  appearance: none;
+  width: 50%;
+  height: 5px;
+  /* background: #ffb4b4c9; */
+  outline: none;
+  /* opacity: 0.7; */
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: 20px;
+}
+input[type="range"]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb{
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;    /* 設為相對位置，為了前後區塊的絕對位置而設定 */
+  width:5px;
+  border: 0px solid #ffb4b4;
+  height:20px;
+  outline: none;
+  /* background:rgb(255, 255, 255); */
+  /* border-radius:50%; */
+  transition:.2s;        /* 點選放大時候的漸變時間 */
+}
 input[type=text] {
   width: 70%;
   border-radius: 20px;
   padding: 10px;
   font-size: 15px;
 }
-#reply_area {
-  margin: 2%;
+#refresh {
+  position: absolute;
+right: 20px;
 }
 #reference {
   color: #ffeaeae0;
@@ -121,7 +155,7 @@ input[type=text] {
   #content {
     padding: 0px;
   }
-  #getReply {
+  #refresh {
     display: none;
   }
 }

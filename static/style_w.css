@@ -9,3 +9,12 @@ a{
 .btn {
   background-color: #7f6ed2;
 }
+.btn:hover {
+  background-color: #9888e7;
+}
+input[type=range] {
+  background: #70c5efc9;
+}
+input[type="range"]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb{
+  background:rgb(81, 55, 211);
+}

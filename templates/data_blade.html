@@ -14,8 +14,10 @@
 {% block before_content %}
   <div class="input_area">
     <span>Seek time to how many minutes before?</span>
-    <input type="range" id="timeRange" min='0', max='6000' step='1' value='30'></input>
-    <span><span id="timeRangeVal"></span>m</span>
+    <div class="row">
+      <input type="range" id="timeRange" min='0', max='6000' step='1' value='30'></input>
+      <span><span id="timeRangeVal"></span>m</span>
+    </div>
   </div>
   <button id="refresh" class="btn">Refresh</button>
 {% endblock %}
@@ -25,17 +27,21 @@
 {% block script %}
 {% block data_script %}{% endblock %}
 <script>
+var timeRange = parseInt(getCookie('timeRange', 30));
+$('#timeRange').val(timeRange);
 $(document).ready(function(){
   $('#refresh').off('click');
   $('#refresh').on('click', function(){
     getEverything();
   });
-  // on value change
+  // time range value changed
   $('#timeRange').off('input');
   $('#timeRange').on('input', function(){
     $('#timeRangeVal').html($('#timeRange').val());
+    timeRange = parseInt($('#timeRange').val());
+    setCookie('timeRange', timeRange);
   });
-  // on mouse release
+  // time range value set
   $('#timeRange').off('mouseup');
   $('#timeRange').on('mouseup', function(){
     getEverything();
