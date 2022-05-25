@@ -20,7 +20,7 @@
 <script>
 function getOverallAttendance(){
   var objData = {
-    'time_range': $('#timeRange').val()
+    'time_range': timeRange
   };
   getData('/get_overall_attendance', objData, function(data){
     overallAttendance = data['overall_attendance'];
@@ -50,7 +50,7 @@ function getOverallAttendance(){
 
 function getStudents(){
   var objData = {
-    'time_range': $('#timeRange').val()
+    'time_range': timeRange
   };
   getData('/get_students', objData, function(data){
     console.log(data);
@@ -143,7 +143,6 @@ function getEverything(){
   getStudents();
   getEmotion();
 }
-
 
 $(document).ready(function(){
     getEverything();

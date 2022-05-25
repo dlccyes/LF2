@@ -1,4 +1,4 @@
-# LF2 - Learning Feedback from Face
+# LF2 - Classroom Helper for Teachers
 
 Network Lab Final Project
 
@@ -6,6 +6,11 @@ See it in action!
 
 - <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/>  
 - <https://classroom-helper-lf2.herokuapp.com/> (herkou backup ver.)
+
+## What is this?
+By placing a Jetson Nano with a camera in front of the classroom, you'll be able to monitor your classroom with a web dashboard. 
+
+The program on Jetson Nano will take a shot periodically, do face & emotion recognition, and record the result to database. The webapp hosted on AWS will then pick up the new data  and update the dashboard. From the dashboard, you'll know how many students have come to your class, and the general vibe of the classroom. With the positivity vs. time graph, you'll even know if your joke works!
 
 ## Tech Stack
 

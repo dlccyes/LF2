@@ -1,4 +1,5 @@
 from flask import Flask, request, abort, render_template, url_for, redirect
+from flask_cors import CORS
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from datetime import datetime, timedelta, timezone
@@ -9,6 +10,7 @@ from helper import *
 load_dotenv()
 
 application = Flask(__name__)
+CORS(application)
 
 if (os.getenv('AWS_ACCESS_KEY_ID')): # use environment variables if exist
     session = boto3.Session(
@@ -86,16 +88,21 @@ def get_student_attendance():
 
 @application.route('/get_students', methods=['POST'])
 def get_students():
-    request_json = request.get_json()
-    time_range = request_json['time_range']
-    if not time_range:
-        time_range = 30
-    students = get_all_students()['Items']
-    students.sort(key=lambda x: x['student_id'])
-    print(students)
-    for i, student in enumerate(students):
-        students[i]['is_present'] = is_student_present(student['student_id'], time_range)
-    return {'success':1, 'data':students}
+    try:
+        print(request)
+        request_json = request.get_json()
+        time_range = request_json['time_range']
+        if not time_range:
+            time_range = 30
+        students = get_all_students()['Items']
+        students.sort(key=lambda x: x['student_id'])
+        print(students)
+        for i, student in enumerate(students):
+            students[i]['is_present'] = is_student_present(student['student_id'], time_range)
+        return {'success':1, 'data':students}
+    except Exception as e:
+        print("something's wrong: ", e)
+        return {'success':0, 'error':str(e)}
 
 @application.route('/get_emotion', methods=['POST'])
 def get_emotion(time_range=30):
