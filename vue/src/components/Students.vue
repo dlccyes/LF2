@@ -10,10 +10,10 @@ export default {
   methods: {
     getStudents() {
       var self = this; // can't access this in axios
-      // var url = "//flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/get_students";
-      // var url = 'http://localhost:5000/get_students';
-      // var url = "https://classroom-helper-lf2.herokuapp.com/get_students"
-      var url = "/get_students"
+      // var url = "//flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/students";
+      // var url = 'http://localhost:5000/students';
+      // var url = "https://classroom-helper-lf2.herokuapp.com/students"
+      var url = "/students"
       axios.post(url, {
         time_range: 30,
       })

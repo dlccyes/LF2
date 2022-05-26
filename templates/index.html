@@ -22,7 +22,7 @@ function getOverallAttendance(){
   var objData = {
     'time_range': timeRange
   };
-  getData('/get_overall_attendance', objData, function(data){
+  getData('/overall-attendance', objData, function(data){
     overallAttendance = data['overall_attendance'];
     numStudent = data['num_student'];
     console.log(overallAttendance, numStudent);
@@ -52,7 +52,7 @@ function getStudents(){
   var objData = {
     'time_range': timeRange
   };
-  getData('/get_students', objData, function(data){
+  getData('/students', objData, function(data){
     console.log(data);
     var studentHtml = '<ul>';
     for(var student of data){
@@ -88,6 +88,7 @@ function calEmoScore(emoJson){
     return null;
   }
   emoScore /= emotionDataNum;
+  emoScore = parseFloat(emoScore.toFixed(2)); // round to 2 decimal places
   return emoScore;
 }
 
@@ -95,7 +96,7 @@ function getEmotion(){
   var objData = {
     'time_range': timeRange,
   };
-  getData('/get_emotion', objData, function(data){
+  getData('/emotion', objData, function(data){
     console.log(data);
     emotionData = data['emotion'];
     emotionDataNum = emotionData.length;
