@@ -1,0 +1,28 @@
+body{
+  background: #000;
+  color: #fff
+}
+
+a{
+  color: #ffcbcb;
+}
+#light{
+  position: absolute;
+  z-index: 1;
+    box-shadow: 0px 0px 31px 20px #ffe6b7;
+    border-radius: 50px;
+  top: 16.85px;
+  right: 8.333px;
+}
+.btn {
+  background-color: #40bc06;
+}
+.btn:hover {
+  background-color: #42d275;
+}
+input[type=range] {
+  background: #ffb4b4c9;
+}
+input[type="range"]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb{
+  background:rgb(255, 255, 255);
+}

@@ -15,7 +15,7 @@ export default {
       // var url = "https://classroom-helper-lf2.herokuapp.com/students"
       var url = "/students"
       axios.post(url, {
-        time_range: 30,
+        time_range: timeRange,
       })
       .then(function(result){
         console.log(result);
@@ -26,13 +26,16 @@ export default {
         self.students = "error";
       });
     },
-  }
+  },
+  mounted() {
+    this.getStudents();
+  },
 }
 </script>
 
 <template>
   <div>Students</div>
-  <button @click="getStudents()">show students</button>
+  <button class='btn' @click="getStudents()">show students</button>
   <div>
     <ul>
       <li v-for="student in students">

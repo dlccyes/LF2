@@ -23,7 +23,7 @@ else:
 # main apis in api.py
 application.register_blueprint(api)
 
-CORS(application)
+# CORS(application)
 
 @application.route('/')
 def index():
