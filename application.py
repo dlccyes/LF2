@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, render_template, url_for, redirect
+from flask import Flask, request, abort, render_template, url_for, redirect, send_file
 from flask_cors import CORS
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
@@ -9,8 +9,17 @@ from helper import *
 
 load_dotenv()
 
-application = Flask(__name__)
+is_vue = False
+if os.getenv('VUE') == 'true':
+    is_vue = True
+
+if is_vue:
+    application = Flask(__name__, template_folder="vue/dist", static_folder="vue/dist/assets")
+else:
+    application = Flask(__name__)
+
 CORS(application)
+
 
 if (os.getenv('AWS_ACCESS_KEY_ID')): # use environment variables if exist
     session = boto3.Session(
@@ -25,6 +34,33 @@ dynamodb = session.resource('dynamodb')
 @application.route('/')
 def index():
     return render_template('index.html')
+    # return send_file('vue/dist/index.html')
+
+@application.route('/std/<student_id>')
+def student_page(student_id):
+    """student page"""
+    if is_vue: return invalid()
+    try:
+        table = dynamodb.Table('student_t')
+        response = table.get_item(
+            Key={
+                'student_id': student_id,
+            }
+        )
+        print(response)
+        if 'Item' not in response or len(response['Item']) == 0:
+            return render_template('invalid.html', reason="Student doesn't exist.")
+        
+        return render_template('student.html', student_id=student_id)
+    except Exception as e:
+        print("something's wrong: ", e)
+        return render_template('invalid.html')
+
+@application.errorhandler(404)
+def page_not_found(e):
+    return invalid()
+    # return render_template('invalid.html', invalid=1)
+    # return send_file('templates/invalid.html')
 
 @application.route('/get_overall_attendance', methods=['POST'])
 def get_overall_attendance():
@@ -126,26 +162,6 @@ def get_emotion(time_range=30):
         print("something's wrong: ", e)
         return {'success':0, 'error':str(e)}
 
-@application.route('/std/<student_id>')
-def student_page(student_id):
-    """student page"""
-    try:
-        table = dynamodb.Table('student_t')
-        response = table.get_item(
-            Key={
-                'student_id': student_id,
-            }
-        )
-        print(response)
-        if 'Item' not in response or len(response['Item']) == 0:
-            return render_template('invalid.html', reason="Student doesn't exist.")
-        
-        return render_template('student.html', student_id=student_id)
-    except Exception as e:
-        print("something's wrong: ", e)
-        return render_template('invalid.html')
-        # return {'success':0, 'error':str(e)}
-
 @application.route('/test')
 def test_API():
     result = test_db()
@@ -166,9 +182,11 @@ def test_db():
         print("something's wrong: ", e)
         return str(e)
 
-@application.errorhandler(404)
-def page_not_found(e):
+def invalid():
+    if is_vue:
+        return redirect('/#/invalid')
     return render_template('invalid.html', invalid=1)
+
 
 if __name__ == "__main__":
     # application.run()

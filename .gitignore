@@ -6,3 +6,7 @@ venv/
 # .elasticbeanstalk/*
 # !.elasticbeanstalk/*.cfg.yml
 # !.elasticbeanstalk/*.global.yml
+# Logs
+
+node_modules
+.DS_Store
