@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
 import { drawLine } from '@/helper.js';
+import { globeStore } from '@/stores/globe'
 
 export default {
   data() {
@@ -8,15 +9,17 @@ export default {
       numStudent: '?',
       numAttendance: '?',
       attendanceGraphHtml: '',
+      globe:  globeStore(),
     }
   },
   methods: {
     getAttendance() {
       var self = this; // can't access this in axios
-      var url = "/overall-attendance"
-      axios.post(url, {
-        time_range: timeRange,
-      })
+      var url = "/overall-attendance";
+      var objData = {
+        'time_range': this.globe.timeRange
+      };
+      axios.post(url, objData)
       .then(function(result){
         console.log(result);
         self.numStudent = result.data.data.num_student;
@@ -51,11 +54,12 @@ export default {
 </script>
 
 <template>
-  <div>Students</div>
-  <button class='btn' @click="getAttendance()">show attendance</button>
-  <div id="currentAttendanceDiv">
-    <p>Current attendance: {{ numAttendance }}/{{ numStudent }} </p>
-  </div>
-  <div id="attendanceGraphDiv"> {{ attendanceGraphHtml }}</div>
+
+<div>Students</div>
+<button class='btn' @click="getAttendance()">show attendance</button>
+<div id="currentAttendanceDiv">
+  <p>Current attendance: {{ numAttendance }}/{{ numStudent }} </p>
+</div>
+<div id="attendanceGraphDiv"> {{ attendanceGraphHtml }}</div>
 
 </template>

@@ -1,22 +1,21 @@
 <script>
 import axios from 'axios';
+import { globeStore } from '@/stores/globe'
 
 export default {
   data() {
     return {
       students: [],
+      globe:  globeStore(),
     }
   },
   methods: {
     getStudents() {
       var self = this; // can't access this in axios
-      // var url = "//flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/students";
-      // var url = 'http://localhost:5000/students';
-      // var url = "https://classroom-helper-lf2.herokuapp.com/students"
-      var url = "/students"
-      axios.post(url, {
-        time_range: timeRange,
-      })
+      var objData = {
+        'time_range': this.globe.timeRange
+      };
+      axios.post("/students", objData)
       .then(function(result){
         console.log(result);
         self.students = result.data.data;
@@ -39,7 +38,7 @@ export default {
   <div>
     <ul>
       <li v-for="student in students">
-        {{ student['student_id'] }} {{ student['student_name'] }}
+        <router-link :to="{name: 'student', params: {id: student.student_id}}"> {{ student.student_id }} {{ student.student_name }}</router-link>
       </li>
     </ul>
   </div>

@@ -1,13 +1,15 @@
 <script>
+import { globeStore } from '@/stores/globe'
+
 export default {
   data() {
     return {
-      timeRange: 30,
+      timeRange: globeStore().timeRange,
     }
   },
   watch: {
     timeRange(newVal, oldVal) {
-      timeRange = this.timeRange;
+      globeStore().timeRange = newVal;
     }
   },
 }

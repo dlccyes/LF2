@@ -1,3 +1,5 @@
+import { globeStore } from '@/stores/globe'
+
 export function getCookie(cookieName, defaultVal){ // from github copilot
   cookie = document.cookie;
   idxStart = cookie.search(cookieName+'=');
@@ -20,6 +22,7 @@ export function setCookie(cookieName, newValue){
 }
 
 export function drawLine(dataArr, id, xName, yName, yAx=null){
+  var night = globeStore().night;
   document.getElementById(id).innerHTML = '';
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(function(){
@@ -59,7 +62,6 @@ export function drawLine(dataArr, id, xName, yName, yAx=null){
         baselineColor:'transparent',
         gridlines:{color:'transparent'},
         minorGridlines:{color:'transparent'},
-
         // format: 'mm:ss',
       },
       vAxis: { //y-axis
@@ -85,10 +87,9 @@ export function drawLine(dataArr, id, xName, yName, yAx=null){
 }
 
 export function drawCloud(data, id){
+  var night = globeStore().night;
   document.getElementById(id).innerHTML = '';
   anychart.onDocumentReady(function () {
-    // night=0;
-    console.log('now is' + night);
     if(night){
       anychart.theme(anychart.themes.darkGlamour);
     }else{
@@ -113,6 +114,5 @@ export function drawCloud(data, id){
     chart.container(id);
     chart.draw();
     document.getElementsByClassName('anychart-credits').innerHTML = '';
-    
   });
 }
