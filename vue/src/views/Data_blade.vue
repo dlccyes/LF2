@@ -1,6 +1,6 @@
 <script setup>
-import TimeSlider from '../components/TimeSlider.vue';
-import Home from '@/views/Home_blade.vue'
+// import TimeSlider from '../components/TimeSlider.vue';
+import Dashboard from '@/views/Dashboard_blade.vue'
 import Student from '@/views/Student_blade.vue'
 
 import { globeStore } from '@/stores/globe'
@@ -12,13 +12,13 @@ var resizing = 0;
 export default {
   data() {
     return {
-      update: 0,
+      reload: 0,
       globe:  globeStore(),
     }
   },
   methods: {
     refresh() {
-      this.update++;
+      this.reload++;
     },
     windResize() {
       // prevent too many calls
@@ -28,7 +28,7 @@ export default {
       resizing = 1;
       self = this;
       setTimeout(function(){
-        self.update++;
+        self.globe.update++;
         resizing = 0;
       }, 500);
     },
@@ -43,6 +43,9 @@ export default {
     isStudent() {
       return this.$route.name == 'student'
     },
+    update() {
+      return this.globe.update;
+    },
   },
   watch: {
     timeRange(newVal, oldVal) {
@@ -53,7 +56,7 @@ export default {
       adjusting = 1;
       self = this;
       setTimeout(function(){
-        self.update++;
+        self.globe.update++;
         adjusting = 0;
       }, 500);
     },
@@ -71,6 +74,6 @@ export default {
 
 <button class='btn' id="refresh" @click="refresh()">refresh</button>
 <!-- <TimeSlider /> -->
-<Home v-if="isHome" :key="[update]"/>
-<Student v-if="isStudent" :key="[update]"/>
+<Dashboard v-if="isHome" :key="[reload]"/>
+<Student v-if="isStudent" :key="[reload]"/>
 </template>

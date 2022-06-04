@@ -113,6 +113,6 @@ export function drawCloud(data, id){
     // display chart
     chart.container(id);
     chart.draw();
-    document.getElementsByClassName('anychart-credits').innerHTML = '';
+    document.getElementsByClassName('anychart-credits')[0].innerHTML = '';
   });
 }

@@ -46,17 +46,28 @@ export default {
         console.log(error);
       });
     },
+    refresh() {
+      this.getAttendance();
+    },
   },
   mounted() {
-    this.getAttendance();
+    this.refresh();
+  },
+  computed: {
+    update(){
+      return this.globe.update;
+    },
+  },
+  watch: {
+    update(){
+      this.refresh();
+    },
   }
 }
 </script>
 
 <template>
 
-<div>Students</div>
-<button class='btn' @click="getAttendance()">show attendance</button>
 <div id="currentAttendanceDiv">
   <p>Current attendance: {{ numAttendance }}/{{ numStudent }} </p>
 </div>

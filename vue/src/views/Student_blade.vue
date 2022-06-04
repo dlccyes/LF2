@@ -56,9 +56,22 @@ export default {
         }
       });
     },
+    refresh() {
+      this.getStudentAttendance();
+    },
   },
   mounted() {
-    this.getStudentAttendance();
+    this.refresh();
+  },
+  computed: {
+    update(){
+      return this.globe.update;
+    },
+  },
+  watch: {
+    update(){
+      this.refresh();
+    },
   }
 }
 </script>

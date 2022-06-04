@@ -33,8 +33,6 @@ export default {
 </script>
 
 <template>
-  <div>Students</div>
-  <button class='btn' @click="getStudents()">show students</button>
   <div>
     <ul>
       <li v-for="student in students">

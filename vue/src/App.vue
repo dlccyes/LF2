@@ -9,7 +9,7 @@ export default {
 </script>
 <template>
   <div id="nav">
-    <router-link v-if="!isHome" to="/">Home</router-link>
+    <router-link v-if="!isHome" to="/">Dashboard</router-link>
   </div>
   <router-view/>
 </template>

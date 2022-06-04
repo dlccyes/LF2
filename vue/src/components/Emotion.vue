@@ -77,9 +77,22 @@ export default {
         }
       });
     },
+    refresh() {
+      this.getEmotion();
+    },
   },
   mounted() {
-    this.getEmotion();
+    this.refresh();
+  },
+  computed: {
+    update(){
+      return this.globe.update;
+    },
+  },
+  watch: {
+    update(){
+      this.refresh();
+    },
   }
 }
 </script>
