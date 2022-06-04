@@ -101,7 +101,8 @@ input[type=text] {
 }
 #refresh {
   position: absolute;
-right: 20px;
+  right: 20px;
+  top: 100px;
 }
 #reference {
   color: #ffeaeae0;
