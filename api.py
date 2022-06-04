@@ -50,6 +50,20 @@ def student_attendance():
         print("something's wrong: ", e)
         return {'success':0, 'error':str(e)}
 
+@api.route('/student-name', methods=['POST'])
+def student_name():
+    """get the student name given student id"""
+    try:
+        request_json = request.get_json()
+        student_id = request_json['student_id']
+        response = get_specific_student(student_id)
+        if 'Item' not in response or len(response['Item']) == 0:
+            return {'success':0, 'error':'Student doesn\'t exist.'}
+        return {'success':1, 'data':{'student_name':response['Item']['student_name']}}
+    except Exception as e:
+        print("something's wrong: ", e)
+        return {'success':0, 'error':str(e)}
+
 @api.route('/students', methods=['POST'])
 def students():
     try:

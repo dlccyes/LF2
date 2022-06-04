@@ -14,6 +14,7 @@ export default {
       attendanceGraphDivHtml: '',
       globe:  globeStore(),
       studentId: this.$route.params.id,
+      studentName: '',
     }
   },
   methods: {
@@ -56,11 +57,24 @@ export default {
         }
       });
     },
+    getStudentName(){
+      var self = this; // can't access this in axios
+      var url = "/student-name";
+      var objData = {
+        'student_id': this.studentId
+      };
+      axios.post(url, objData)
+      .then(function(result){
+        console.log(result);
+        self.studentName = result.data.data.student_name;
+      });
+    },
     refresh() {
       this.getStudentAttendance();
     },
   },
   mounted() {
+    this.getStudentName();
     this.refresh();
   },
   computed: {
@@ -78,7 +92,7 @@ export default {
 
 <template>
 
-<h1>{{ studentId }}</h1>
+<h1>{{ studentId }} {{ studentName }}</h1>
 <TimeSlider />
 <div id="studentAttendance">{{ studentAttendanceHtml }}</div>
 <div id="attendanceGraphDiv">{{ attendanceGraphDivHtml }}</div>
