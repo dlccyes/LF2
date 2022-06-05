@@ -16,5 +16,5 @@ input[type=range] {
   background: #70c5efc9;
 }
 input[type="range"]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb{
-  background:rgb(81, 55, 211);
+  background:#5137d3;
 }

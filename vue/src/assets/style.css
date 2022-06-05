@@ -1,3 +1,21 @@
+:root {
+  --color-bg: #000;
+  --color-txt: #fff;
+  --color-link: #ffcbcb;
+  --color-btn: #40bc06;
+  --color-btn-hover: #42d275;
+  --color-slider: #ffb4b4c9;
+  --color-slider-bg: #fff;
+}
+:root[data-theme="day"] {
+  --color-bg: #fff;
+  --color-txt: #000;
+  --color-link: #5692f0;
+  --color-btn: #7f6ed2;
+  --color-btn-hover: #9888e7;
+  --color-slider: #70c5efc9;
+  --color-slider-bg: #5137d3;
+}
 @font-face {
   font-family: 'Montserrat';
   font-style: normal;
@@ -5,6 +23,25 @@
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/montserrat/v23/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXo.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; 
+}
+body {
+  background: var(--color-bg);
+  color: var(--color-txt);
+}
+a {
+  color: var(--color-link);
+}
+.btn {
+  background-color: var(--color-btn);
+}
+.btn:hover {
+  background-color: var(--color-btn-hover);
+}
+input[type=range] {
+  background: var(--color-slider);
+}
+input[type="range"]::-webkit-slider-thumb, input[type=range]::-moz-range-thumb{
+  background: var(--color-slider-bg);
 }
 body {
   font-family: Montserrat;
