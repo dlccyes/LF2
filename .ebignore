@@ -1,12 +1,9 @@
-.env
-__pycache__/
-venv/
-Procfile
-
-# Elastic Beanstalk Files
-# .elasticbeanstalk/*
-# !.elasticbeanstalk/*.cfg.yml
-# !.elasticbeanstalk/*.global.yml
-
-node_modules
-.DS_Store
+*
+!requirements.txt
+!*py
+!static
+!templates
+!.elasticbeanstalk/
+!vue/
+node_modules/
+jetson-nano/emotion/
