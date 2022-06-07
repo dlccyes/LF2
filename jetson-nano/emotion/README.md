@@ -2,8 +2,10 @@
 Source: https://github.com/George-Ogden/emotion
 
 ## Setup
+```
+pip install -r requirements.txt
+```
 torch                   1.9.1
-
 torchvision             0.10.1
 
 ## Usage
