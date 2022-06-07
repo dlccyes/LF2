@@ -1,6 +1,6 @@
 # LF2 - Classroom Helper for Teachers
 
-Network Lab Final Project
+2022 Network Lab Final Project
 
 See it in action!  
 
@@ -14,11 +14,15 @@ The program on Jetson Nano will take a shot periodically, do face & emotion reco
 
 ## Tech Stack
 
-- Web: Flask & jQuery
+- Web: Flask & Vue
 - Web hosting: AWS EC2 (with Elastic Beanstalk)
 - Database: AWS DynamoDB
 - Live Capuring: Jetson Nano
 - Face & Emotion Recognition:
+
+## System Architecture
+
+![](https://i.imgur.com/MZxVNtl.png)
 
 ## How to update face & emotion recognition data to the database?
 
@@ -67,3 +71,31 @@ Please refer to [`jetson-nano/generate_data.py`](jetson-nano/generate_data.py) f
 ## Face Recognition
 
 ![](https://i.imgur.com/7W5aEJm.png)
+
+## Frontend Dashboard
+
+There are two versions of frontend available. The default one is written in Vue, and the other is written in vanilla HTML/JavaScript/CSS + jQuery, rendered with Flask's template. You can switch to the latter one by setting `VUE` to `false` (or just remove it) in your [environment variables](.env_bak).
+
+There are many features:
+
+**Theme switcher**
+
+You can toggle the theme by clicking the moon button at the top right.
+
+**Time slider**
+
+You can easily change the scope of time to watch by dragging the slider at the top of the page.
+
+**Attendance**
+
+You can see the last recorded attendance as well as the attendance vs. time chart to see the attendance of your classroom over time.
+
+**Emotion**
+
+You can see the positivity of the classroom over time as well as the emotion cloud to get an idea of the general vibe of the classroom in the scope of time you selected.
+
+**Specific students**
+
+Apart from seeing the overall condition of the classroom, you can also head to each student's page to see their attendance record.
+
+![](https://i.imgur.com/yXz8QOK.png)
