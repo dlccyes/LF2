@@ -20,11 +20,12 @@ The program on Jetson Nano will take a shot periodically, do face & emotion reco
 - Web hosting: AWS EC2 (with Elastic Beanstalk)
 - Database: AWS DynamoDB
 - Live Capuring: Jetson Nano
-- Face & Emotion Recognition:
+- Face & Emotion Recognition: PyTorch
 
 ## System Architecture
 
-![](https://i.imgur.com/MZxVNtl.png)
+<!-- ![](https://i.imgur.com/MZxVNtl.png) -->
+![](resources/sys_arch.png)
 
 ## How to update face & emotion recognition data to the database?
 

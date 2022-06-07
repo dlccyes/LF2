@@ -55,5 +55,12 @@ export default {
   <router-link v-if="!isHome" to="/">Dashboard</router-link>
 </div>
 <router-view/>
-
+<div id="sauceDiv" class="">
+  <a href="https://github.com/dlccyes/LF2" target="_blank">
+    <p>Github&nbsp</p>
+  </a>
+  <a href="https://dlccyes.github.io/LF2/" target="_blank">
+    <p>| Doc</p>
+  </a>
+</div>
 </template>
