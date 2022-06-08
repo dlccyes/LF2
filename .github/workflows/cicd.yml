@@ -15,6 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache vue/dist
+        id: cache-vue-dist
+        uses: actions/cache@v3
+        with:
+          path: vue/dist
+          key: vue-dist
+
       - name: use Node
         uses: actions/setup-node@v1
         with:
@@ -33,8 +40,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache vue/dist
+        id: cache-vue-dist
+        uses: actions/cache@v3
+        with:
+          path: vue/dist
+          key: vue-dist
+
       - name: Create ZIP deployment package
-        run: git archive HEAD -o deploy_package.zip ; zip -d deploy_package.zip "Procfile"
+        run: git archive HEAD -o deploy_package.zip ; zip -ur deploy_package.zip vue/dist ; zip -d deploy_package.zip Procfile
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
