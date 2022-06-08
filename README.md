@@ -1,11 +1,12 @@
-# LF2 - Classroom Helper for Teachers
+# LF2 - Easy Classroom Monitoring Tool for Teachers
 
 2022 Network Lab Final Project
 
 See it in action!  
 
-- <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/> 
-- <https://classroom-helper-lf2.herokuapp.com/> (Heroku backup ver.)
+- <http://lf2-classroom-monitor.us-east-2.elasticbeanstalk.com/>
+- <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/> (backup)
+- <https://classroom-helper-lf2.herokuapp.com/> (Heroku backup)
 
 
 ## What is this?

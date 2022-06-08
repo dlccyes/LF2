@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: flask-env
+    environment: lf2-env
 global:
   application_name: LF2
   branch: null

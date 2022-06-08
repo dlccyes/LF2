@@ -4,6 +4,7 @@
 !static
 !templates
 !.elasticbeanstalk/
+!.ebextensions/
 !vue/
 node_modules/
 jetson-nano/emotion/
