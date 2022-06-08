@@ -4,13 +4,15 @@
 
 See it in action!  
 
-- <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/>  
-- <https://classroom-helper-lf2.herokuapp.com/> (herkou backup ver.)
+- <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/> 
+- <https://classroom-helper-lf2.herokuapp.com/> (Heroku backup ver.)
+
 
 ## What is this?
+
 By placing a Jetson Nano with a camera in front of the classroom, you'll be able to monitor your classroom with a web dashboard. 
 
-The program on Jetson Nano will take a shot periodically, do face & emotion recognition, and record the result to database. The webapp hosted on AWS will then pick up the new data  and update the dashboard. From the dashboard, you'll know how many students have come to your class, and the general vibe of the classroom. With the positivity vs. time graph, you'll even know if your joke works!
+The program on Jetson Nano will take a shot periodically, do face & emotion recognition, and record the result to database. The webapp hosted on AWS will then pick up the new data and update the dashboard. From the dashboard, you'll know how many students have come to your class, and the general vibe of the classroom. With the positivity vs. time graph, you'll even know if your joke works!
 
 ## Tech Stack
 
@@ -18,11 +20,12 @@ The program on Jetson Nano will take a shot periodically, do face & emotion reco
 - Web hosting: AWS EC2 (with Elastic Beanstalk)
 - Database: AWS DynamoDB
 - Live Capuring: Jetson Nano
-- Face & Emotion Recognition:
+- Face & Emotion Recognition: PyTorch
 
 ## System Architecture
 
-![](https://i.imgur.com/MZxVNtl.png)
+<!-- ![](https://i.imgur.com/MZxVNtl.png) -->
+![](resources/sys_arch.png)
 
 ## How to update face & emotion recognition data to the database?
 
