@@ -166,7 +166,7 @@ if __name__ == '__main__':
     parser.add_argument('--hide-conf', default=False, action='store_true', help='hide confidences')
     parser.add_argument('--show-fps', default=False, action='store_true', help='print fps to console')
     
-    parser.add_argument('--sleep-time',default=0.5, help='sleep time')
+    parser.add_argument('--sleep-time',default="0.5", help='sleep time')
     
     opt = parser.parse_args()
     check_requirements(exclude=('pycocotools', 'thop'))
