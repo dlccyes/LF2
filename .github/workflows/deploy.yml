@@ -16,12 +16,14 @@ jobs:
         with:
           node_version: 18.2
       - name: install node modules
-        run: npm install
+        run: cd vue; npm install
       
       - name: build vue
         run: npm run build
 
   deploy:
+    needs: build
+
     runs-on: ubuntu-latest
 
     steps:
