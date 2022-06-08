@@ -8,44 +8,44 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./vue
+    # defaults:
+    #   run:
+    #     working-directory: ./vue
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache vue/dist
-        id: cache-vue-dist
-        uses: actions/cache@v3
-        with:
-          path: vue/dist
-          key: vue-dist
+      # - name: Cache vue/dist
+      #   id: cache-vue-dist
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: vue/dist
+      #     key: vue-dist
 
       - name: use Node
         uses: actions/setup-node@v1
         with:
           node-version: 18.2
       - name: install node modules
-        run: npm install
+        run: cd vue ; npm install
       
       - name: build vue
-        run: npm run build
+        run: cd vue ; npm run build
 
-  deploy:
-    needs: build
+  # deploy:
+  #   needs: build
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Cache vue/dist
-        id: cache-vue-dist
-        uses: actions/cache@v3
-        with:
-          path: vue/dist
-          key: vue-dist
+  #     - name: Cache vue/dist
+  #       id: cache-vue-dist
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: vue/dist
+  #         key: vue-dist
 
       - name: Create ZIP deployment package
         run: git archive HEAD -o deploy_package.zip ; zip -d deploy_package.zip "Procfile"
