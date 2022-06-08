@@ -8,6 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./vue
+
     steps:
       - uses: actions/checkout@v2
 
@@ -16,7 +20,7 @@ jobs:
         with:
           node_version: 18.2
       - name: install node modules
-        run: cd vue; npm install
+        run: npm install
       
       - name: build vue
         run: npm run build
