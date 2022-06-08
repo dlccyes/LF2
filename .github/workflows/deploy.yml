@@ -11,12 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: build vue
+      - name: use Node
       - uses: actions/setup-node@v1
         with:
           node_version: 18.2
-      - run: npm install
-      - run: npm run build
+      - name: install node modules
+        run: npm install
+      
+      - name: build vue
+        run: npm run build
+        
   deploy:
     runs-on: ubuntu-latest
 
