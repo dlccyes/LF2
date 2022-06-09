@@ -10,7 +10,7 @@ on:
       - 'static/**'
       - 'templates/**'
       - '.gitignore'
-      - !'jetson-nano/**'
+      - '!jetson-nano/**'
 
 jobs:
   build:
