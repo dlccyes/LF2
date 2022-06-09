@@ -3,6 +3,14 @@ name: cicd
 on:
   push:
     branches: [ master ]
+    paths:
+      - '**.py'
+      - 'vue/**'
+      - '.github/**'
+      - 'static/**'
+      - 'templates/**'
+      - '.gitignore'
+      - !'jetson-nano/**'
 
 jobs:
   build:
