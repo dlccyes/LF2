@@ -1,13 +1,12 @@
 # LF2 - Easy Classroom Monitoring Tool for Teachers
 
-2022 Network Lab Final Project
+**Go to the [wiki](https://github.com/dlccyes/LF2/wiki) to see full documentation**
 
 See it in action!  
 
 - <http://lf2-classroom-monitor.us-east-2.elasticbeanstalk.com/>
 - <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/> (backup)
 - <https://classroom-helper-lf2.herokuapp.com/> (Heroku backup)
-
 
 ## What is this?
 
@@ -25,37 +24,7 @@ The program on Jetson Nano will take a shot periodically, do face & emotion reco
 
 ## System Architecture
 
-<!-- ![](https://i.imgur.com/MZxVNtl.png) -->
-![](resources/sys_arch.png)
-
-## How to update face & emotion recognition data to the database?
-
-### Download the codes
-
-```
-git clone https://github.io/dlccyes/LF2.git
-```
-
-### Prepare the environment
-
-```
-cp .env_bak .env
-```
-Fill `.env` with the correct AWS credentials. (Never commit it.)
-
-### Update database with your data
-
-The functions for updating data is in [`jetson-nano/update_db.py`](jetson-nano/update_db.py). 
-
-So you can put the face or emotion recognition code in `jetson-nano` and `import update_db.py` to use it.
-
-There are 2 functions in it. 
-
-The input for `log_emotion` is a 2D list. Each element consists of an emotion (string) and its confidence (integer). There can be duplicate emotions. Sample intpu: `[['happy', 0.98], ['neutral', 0.87], ['neutral', 0.32]]`.
-
-The input for `log_attendance` is a 1D list. Each element is a unique student id (string). Sample input: `['B08901000', 'B08901002', 'B08901001']`.
-
-Please refer to [`jetson-nano/generate_data.py`](jetson-nano/generate_data.py) for sample usage.
+![sys arch](resources/sys_arch.png)
 
 ## Emotion Recognition
 
@@ -103,3 +72,48 @@ You can see the positivity of the classroom over time as well as the emotion clo
 Apart from seeing the overall condition of the classroom, you can also head to each student's page to see their attendance record.
 
 ![](https://i.imgur.com/yXz8QOK.png)
+
+## How to run the webapp locally?
+
+### Download the codes
+
+```
+git clone https://github.io/dlccyes/LF2.git
+```
+
+### Prepare the environment
+
+**Supply environment variables**
+
+```
+cp .env_bak .env
+```
+Fill `.env` with the correct AWS credentials. (Never commit it.)
+
+**Install Python dependencies**
+
+```
+pip3 install -r requirements.txt
+```
+
+**Install Node dependencies**
+
+```
+cd vue
+npm install
+```
+
+### Build the Vue frontend
+
+```
+cd vue
+npm run build
+```
+
+### Run the Flask server
+
+```
+python3 application.py
+```
+
+And you're done! Head to <http://127.0.0.1:5000> to see the dashboard.
