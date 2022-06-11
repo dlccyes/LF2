@@ -32,14 +32,15 @@ The program on Jetson Nano will take a shot periodically, do face & emotion reco
 
 ### Types of Emotions
 
-- surprise
-- happy
-- neutral
-- sad
-- fear
-- disgust
-- contempt
-- anger
+- SURPRISED
+- HAPPY
+- CALM
+- CONFUSED
+- SAD
+- ANGRY
+- FEAR
+- DISGUSTED
+- UNKNOWN
 
 ## Face Recognition
 

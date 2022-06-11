@@ -15,11 +15,11 @@ export default {
   methods: {
     // calculate average emotion score given the input json, on the scale of 5
     calEmoScore(emoJson){
-      var emoScoreMap = {'surprise':5, 'happy': 5, 'neutral': 3, 'sad': 2, 'fear':0, 'disgust':1, 'contempt':1, 'anger':0};
+      var emoScoreMap = {'SURPRISED':5, 'HAPPY': 5, 'CALM': 3, 'CONFUSED': 2, 'SAD':1, 'ANGRY':1, 'FEAR':1, 'DISGUSTED':0};
       var emoScore = 0;
       var emotionDataNum = 0;
-      for(var emo in emoJson){ // a json
-        if(!emoScoreMap[emo]){
+      for(var emo in emoJson){
+        if(!emoScoreMap[emo]){ // skip if no match
           continue;
         }
         emotionDataNum += emoJson[emo].length;
