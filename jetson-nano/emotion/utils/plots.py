@@ -24,8 +24,10 @@ from utils.metrics import fitness
 
 #from update_db import log_emotion, log_attendance
 import sys
+
 sys.path.append('../../jetson-nano')
 from update_db import log_emotion
+
 #import importlib
 #mod = importlib.import_module(".update_db",package='jetson-nano')
 #from ../.jetson-nano import update_db

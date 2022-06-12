@@ -114,6 +114,7 @@ def detect(opt):
             print(f"view_img: {view_img}")
             #print(f"dataset size: {len(dataset)}")
             if view_img:
+            #if False:
                 display_img = cv2.resize(im0, (im0.shape[1]*2,im0.shape[0]*2))
                 cv2.imshow("Emotion Detection",display_img)
                 cv2.waitKey(1)  # 1 millisecond
