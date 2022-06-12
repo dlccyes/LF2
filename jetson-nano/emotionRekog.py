@@ -38,10 +38,25 @@ def awsEmotionsFrame(frame):
 	log_emotion(emotionLogged)
 
 if __name__=='__main__':
+	pipeline = (
+    "nvarguscamerasrc ! "
+        "video/x-raw(memory:NVMM), "
+        "width=(int)1920, height=(int)1080, "
+        "format=(string)NV12, framerate=(fraction)30/1 ! "
+    "queue ! "
+    "nvvidconv ! "
+        "video/x-raw, "
+        "width=(int)1920, height=(int)1080, "
+        "format=(string)BGRx, framerate=(fraction)30/1 ! "
+    "videoconvert ! "
+        "video/x-raw, format=(string)BGR ! "
+    "appsink"
+	)
+	cap = cv2.VideoCapture(pipeline, cv2.CAP_GSTREAMER)
 
-
-	cap = cv2.VideoCapture(0)
+	#cap = cv2.VideoCapture('/dev/video0')
 	while cap.isOpened():
+		print("hello")
 		ret, frame = cap.read()
 
 		#grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -55,9 +70,7 @@ if __name__=='__main__':
 		awsEmotionsFrame(frame)
 		print(time.time()-start)
 
-	# 釋放攝影機
 	cap.release()
-	# 關閉所有 OpenCV 視窗
 	cv2.destroyAllWindows()
 
 
