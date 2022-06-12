@@ -6,7 +6,7 @@ from update_db import log_emotion
 #bucket = 'network-final-b07901149'
 #s3 = boto3.client('s3')
 
-def awsEmotionsFile(filePath:str):
+def awsEmotionsFile(filePath):
 	with open(filePath, 'rb') as image:
 		#s3.upload_fileobj(image, bucket, 'nsfw.jpeg')
 		img = image.read()
