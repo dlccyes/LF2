@@ -1,6 +1,7 @@
 <script setup>
 import Students from '@/components/Students.vue'
 import Attendance from '@/components/Attendance.vue';
+import Leaderboard from '@/components/Leaderboard.vue';
 import Emotion from '@/components/Emotion.vue';
 import TimeSlider from '@/components/TimeSlider.vue';
 </script>
@@ -13,7 +14,9 @@ import TimeSlider from '@/components/TimeSlider.vue';
 <Attendance/>
 <h2>Classroom Vibe</h2>
 <Emotion/>
-<h2>Specific Students</h2>
+<h2>Attendance Leaderboard</h2>
+<Leaderboard/>
+<h2>All Students</h2>
 <Students/>
 
 </template>
