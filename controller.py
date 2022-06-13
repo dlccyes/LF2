@@ -18,7 +18,7 @@ else: # use ~/.aws
     session = boto3.Session(region_name=os.getenv('REGION_NAME', 'us-west-1'))
 dynamodb = session.resource('dynamodb')
 
-def get_attendance(time_range=30):
+def get_attendance(time_range):
     """return all the attendance data within time range, sorted by time"""
     table = dynamodb.Table('attendance_t')
     time_start, time_end = get_time_range(time_range)
@@ -44,7 +44,14 @@ def get_all_students():
     response = table.scan()
     return response
 
-def is_student_present(student_id, time_range=30):
+def latest_attendance(time_range):
+    """return the latest attendance data within time range"""
+    response = get_attendance(time_range)
+    if len(response) == 0:
+        return []
+    return response[-1]['student_id']
+
+def is_student_present(student_id, time_range):
     response = get_attendance(time_range)
     print(response)
     is_present = 0
@@ -52,7 +59,7 @@ def is_student_present(student_id, time_range=30):
         is_present = 1
     return is_present
 
-def get_emotion(time_range=30):
+def get_emotion(time_range):
     table = dynamodb.Table('emotion_t')
     time_start, time_end = get_time_range(time_range)
 

@@ -18,27 +18,49 @@ export default {
       axios.post("/students", objData)
       .then(function(result){
         console.log(result);
-        self.students = result.data.data;
+        self.students = result.data.data.students;
+        for(var i = 0; i < self.students.length; i++){
+          var student = self.students[i];
+          if(student['is_present']){
+            self.students[i]['is_present'] = 'Present';
+          }else{
+            self.students[i]['is_present'] = 'Absent';
+          }
+        }
       })
       .catch(function(error){
         console.log(error);
-        self.students = "error";
+        self.students = [];
       });
+    },
+    refresh(){
+      this.getStudents();
     },
   },
   mounted() {
-    this.getStudents();
+    this.refresh();
   },
+  computed: {
+    update(){
+      return this.globe.update;
+    },
+  },
+  watch: {
+    update(){
+      this.refresh();
+    },
+  }
 }
 </script>
 
 <template>
-  <div>
-    <ul>
-      <li v-for="student in students">
-        <router-link :to="{name: 'student', params: {id: student.student_id}}"> {{ student.student_id }} {{ student.student_name }}</router-link>
-      </li>
-    </ul>
-  </div>
+
+<div class="fontMono">
+  <ul>
+    <li v-for="student in students">
+      <router-link :to="{name: 'student', params: {id: student.student_id}}"> {{ student.student_id }}</router-link>: {{ student.is_present }}
+    </li>
+  </ul>
+</div>
 
 </template>

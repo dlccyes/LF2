@@ -2,8 +2,8 @@
 # example request lifecycle
 # application@student_page
 
-from flask import Flask, request, abort, render_template, url_for, redirect, send_file
-from flask_cors import CORS
+from flask import Flask, render_template
+# from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from api import * # api endpoints
