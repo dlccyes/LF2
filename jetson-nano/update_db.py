@@ -20,7 +20,7 @@ else: # use ~/.aws
 dynamodb = session.resource('dynamodb')
 
 def log_attendance(student_ids):
-    """record the input student as attended"""
+    """record attendance to db: input a json of attended students, format: {<student_id>: <is_masked>, ....}"""
     table_name = 'attendance_t'
     table = dynamodb.Table(table_name)
     log_time = datetime.now(timezone(timedelta(hours=8))).isoformat()
@@ -32,7 +32,7 @@ def log_attendance(student_ids):
     )
 
 def log_emotion(emotion_list):
-    """get an array of detected emotions, record to database"""
+    """record emotion to db: input an 2D array of detected emotions, format: [[<emotion>, <confidence>], ....]"""
     emotions = dict()
     for [emo, conf] in emotion_list:
         if emo not in emotions:
@@ -50,6 +50,7 @@ def log_emotion(emotion_list):
                 'emotions': emotions,
             }
     )
+
 def log_student(student_ids, recreate=False):
     """record student to db: input an array of student ids, format: [<student_id>, ....]"""
     if recreate: # recreate the whole table (to remove previous records)

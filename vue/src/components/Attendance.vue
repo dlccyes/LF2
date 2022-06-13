@@ -9,6 +9,7 @@ export default {
       numStudent: '?',
       numAttendance: '?',
       attendanceGraphHtml: '',
+      maskGraphDivHtml: '',
       globe:  globeStore(),
     }
   },
@@ -28,7 +29,7 @@ export default {
         if(attendanceDataNum == 0){
           self.numAttendance = 0;
         }else{
-          self.numAttendance = overallAttendance[attendanceDataNum-1]['student_id'].length;
+          self.numAttendance = Object.keys(overallAttendance[attendanceDataNum-1]['student_id']).length;
         }
         if(attendanceDataNum < 2){
           self.attendanceGraphHtml = "Not enough data to show attendance vs. time graph.";
@@ -36,7 +37,7 @@ export default {
           self.attendanceGraphHtml = "";
           var attandanceVsTimeArr = [];
           for(var item of overallAttendance){
-            attandanceVsTimeArr.push([new Date(item['log_time']), item['student_id'].length]);
+            attandanceVsTimeArr.push([new Date(item['log_time']), Object.keys(item['student_id']).length]);
           }
           var yAx;
           drawLine(attandanceVsTimeArr, 'attendanceGraphDiv', 'log time', 'num of students', yAx=[0, self.numStudent, 1]);
