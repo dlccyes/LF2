@@ -1,8 +1,10 @@
 import os
-from time import strftime, strptime
 from dotenv import load_dotenv
 import boto3
 from datetime import datetime, timedelta, timezone
+import sys
+sys.path.append('../')
+from model import create_table
 
 load_dotenv()
 
@@ -48,3 +50,16 @@ def log_emotion(emotion_list):
                 'emotions': emotions,
             }
     )
+def log_student(student_ids, recreate=False):
+    """record student to db: input an array of student ids, format: [<student_id>, ....]"""
+    if recreate: # recreate the whole table (to remove previous records)
+        create_table('student_t', 'student_id', 5)
+    table_name = 'student_t'
+    table = dynamodb.Table(table_name)
+    with table.batch_writer() as batch:
+        for student_id in student_ids:
+            batch.put_item(
+                Item={
+                        'student_id': student_id,
+                    }
+            )
