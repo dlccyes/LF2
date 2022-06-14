@@ -7,4 +7,4 @@
 !.ebextensions/
 !vue/
 node_modules/
-jetson-nano/emotion/
+jetson-nano/
