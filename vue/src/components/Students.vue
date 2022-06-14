@@ -7,6 +7,7 @@ export default {
     return {
       students: [],
       globe:  globeStore(),
+      studentsHtml: 'No data',
     }
   },
   methods: {
@@ -19,6 +20,10 @@ export default {
       .then(function(result){
         console.log(result);
         self.students = result.data.data.students;
+        if(self.students.length == 0){
+          return;
+        }
+        self.studentsHtml = '';
         for(var i = 0; i < self.students.length; i++){
           var student = self.students[i];
           if(student['is_present']){
@@ -55,6 +60,7 @@ export default {
 
 <template>
 
+{{ studentsHtml }}
 <div class="fontMono">
   <ul>
     <li v-for="student in students">

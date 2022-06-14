@@ -7,6 +7,7 @@ export default {
     return {
       students: [],
       globe:  globeStore(),
+      leaderboardHtml: 'No data',
     }
   },
   methods: {
@@ -19,6 +20,9 @@ export default {
       .then(function(result){
         console.log(result);
         self.students = result.data.data.attendance_count;
+        if(self.students.length > 0) {
+          self.leaderboardHtml = '';
+        }
       })
       .catch(function(error){
         console.log(error);
@@ -47,6 +51,7 @@ export default {
 
 <template>
 
+{{ leaderboardHtml }}
 <div class="fontMono">
   <ol>
     <li v-for="student in students">
