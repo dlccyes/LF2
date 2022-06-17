@@ -46,6 +46,7 @@ def student_attendance():
         print(response)
         for item in response:
             is_present = 0
+            is_masked = 0
             if student_id in item['student_id']:
                 is_present = 1
                 is_masked = int(item['student_id'][student_id])
