@@ -160,12 +160,17 @@ $ wget http://dlib.net/files/dlib-19.17.tar.bz2
 $ tar jxvf dlib-19.17.tar.bz2
 $ cd dlib-19.17
 ```
-remove "forward_algo = forward_best_algo;" in dlib/cuda/cudnn_dlibapi.cpp
+Remove "forward_algo = forward_best_algo;" in dlib/cuda/cudnn_dlibapi.cpp
 ```bash
 $ sudo python3 setup.py install
 $ sudo pip3 install face_recognition
 ```
 
-
+```bash
+# Install Tensorflow on Jetson Nano
+$ pip3 install Cython
+$ pip3 install numpy
+$ pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_aarch64.whl
+```
 
 #### Emotion Recognition
