@@ -13,6 +13,10 @@ By placing a Jetson Nano with a camera in front of the classroom, you'll be able
 
 The program on Jetson Nano will take a shot periodically, do face & emotion recognition, and record the result to database. The webapp hosted on AWS will then pick up the new data and update the dashboard. From the dashboard, you'll know how many students have come to your class, and the general vibe of the classroom. With the positivity vs. time graph, you'll even know if your joke works!
 
+- [Slides of our project](/resources/slides.pdf)
+- [Poster of our project](/resources/poster.pdf)
+- [Documentation of our project](https://github.com/dlccyes/LF2/wiki)
+
 ## Tech Stack
 
 - Web: Flask & Vue
