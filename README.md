@@ -128,7 +128,7 @@ And you're done! Head to <http://127.0.0.1:5000> to see the dashboard.
 
 ### Install project dependencies
 #### gRPC-with-protobuf
-```bash
+```
 # Install protobuf compiler
 $ sudo apt-get install protobuf-compiler
 
@@ -140,7 +140,7 @@ $ pip3 install -r grpc_requirements.txt
 ```
 
 #### AWS SDK for Python
-```bash
+```
 # Install boto3
 $ pip3 install boto3
 
@@ -159,7 +159,7 @@ Add access key in the credentials file and region in the config file.
 ```
 
 #### Face Recognition
-```bash
+```
 # Install the face_recognition package on Jetson Nano
 $ sudo apt-get install python3-pip cmake libopenblas-dev liblapack-dev libjpeg-dev
 $ git clone https://github.com/JetsonHacksNano/installSwapfile
@@ -174,7 +174,7 @@ $ sudo python3 setup.py install
 $ sudo pip3 install face_recognition
 ```
 
-```bash
+```
 # Install Tensorflow on Jetson Nano
 $ pip3 install Cython
 $ pip3 install numpy
