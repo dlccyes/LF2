@@ -180,3 +180,11 @@ $ pip3 install Cython
 $ pip3 install numpy
 $ pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_aarch64.whl
 ```
+
+#### Scanner
+```
+# Install evdev
+$ pip3 install evdev
+
+Change the event number in jetson-nano/scanner.py
+```
