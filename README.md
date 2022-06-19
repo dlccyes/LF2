@@ -140,6 +140,9 @@ $ pip3 install -r grpc_requirements.txt
 ```
 
 #### AWS SDK for Python
+
+**Python dependencies**
+
 ```
 # Install boto3
 $ pip3 install boto3
@@ -147,16 +150,23 @@ $ pip3 install boto3
 # Install dotenv
 $ pip3 install python-dotenv
 
+```
+
 Rename `.env_bak` to `.env` in the project root and supply it with the correct credentials for this script to work.
 
+**AWS credentials**
+
+Install & configure AWS CLI or supply the credentials directly as follow
+
+```
 # Setup your host environment
 $ cd ~
 $ mkdir .aws && cd .aws
 $ vim credentials
 $ vim config
+```
 
 Add access key in the credentials file and region in the config file.
-```
 
 #### Face Recognition
 ```
@@ -185,9 +195,9 @@ $ pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp3
 ```
 # Install evdev
 $ pip3 install evdev
-
-Change the event number to the that corresponding to the scanner in jetson-nano/scanner.py
 ```
+
+Change the event number to the that corresponding to the scanner in `jetson-nano/scanner.py`
 
 ### Usage
 Run the gRPC server on your Jetson Nano
