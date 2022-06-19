@@ -127,7 +127,7 @@ And you're done! Head to <http://127.0.0.1:5000> to see the dashboard.
 - [Scanner](https://www.amazon.com/usb-scanner/s?k=usb+scanner)
 
 ### Install project dependencies
-#### gRPC-with-protobuf (On Jetson Nano)
+#### gRPC-with-protobuf
 ```bash
 # Install protobuf compiler
 $ sudo apt-get install protobuf-compiler
@@ -138,6 +138,7 @@ $ sudo apt-get install build-essential make
 # Install grpc packages
 $ pip3 install -r grpc_requirements.txt
 ```
+
 #### AWS SDK for Python
 ```bash
 # Install boto3
@@ -148,3 +149,23 @@ $ pip3 install python-dotenv
 
 Rename `.env_bak` to `.env` in the project root and supply it with the correct credentials for this script to work.
 ```
+
+#### Face Recognition
+```bash
+# Install the face_recognition package on Jetson Nano
+$ sudo apt-get install python3-pip cmake libopenblas-dev liblapack-dev libjpeg-dev
+$ git clone https://github.com/JetsonHacksNano/installSwapfile
+$ ./installSwapfile/installSwapfile.sh
+$ wget http://dlib.net/files/dlib-19.17.tar.bz2 
+$ tar jxvf dlib-19.17.tar.bz2
+$ cd dlib-19.17
+```
+remove "forward_algo = forward_best_algo;" in dlib/cuda/cudnn_dlibapi.cpp
+```bash
+$ sudo python3 setup.py install
+$ sudo pip3 install face_recognition
+```
+
+
+
+#### Emotion Recognition
