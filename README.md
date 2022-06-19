@@ -186,5 +186,21 @@ $ pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp3
 # Install evdev
 $ pip3 install evdev
 
-Change the event number in jetson-nano/scanner.py
+Change the event number to the that corresponding to the scanner in jetson-nano/scanner.py
+```
+
+### Usage
+Run the gRPC server on your Jetson Nano
+```
+$ python3 jetson-nano/server.py
+```
+
+Register with student ID & photo
+```
+sudo python3 jetson-nano/register.py
+```
+
+In-class monitor
+```
+python3 jetson-nano/inclass_monitor.py
 ```
