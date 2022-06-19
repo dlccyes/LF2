@@ -5,7 +5,6 @@
 See it in action!  
 
 - <http://lf2-classroom-monitor.us-east-2.elasticbeanstalk.com/>
-- <http://flask-env.eba-ts5yjdi9.us-east-2.elasticbeanstalk.com/> (backup)
 - <https://classroom-helper-lf2.herokuapp.com/> (Heroku backup)
 
 ## What is this?
