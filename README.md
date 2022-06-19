@@ -148,6 +148,14 @@ $ pip3 install boto3
 $ pip3 install python-dotenv
 
 Rename `.env_bak` to `.env` in the project root and supply it with the correct credentials for this script to work.
+
+# Setup your host environment
+$ cd ~
+$ mkdir .aws && cd .aws
+$ vim credentials
+$ vim config
+
+Add access key in the credentials file and region in the config file.
 ```
 
 #### Face Recognition
@@ -156,12 +164,12 @@ Rename `.env_bak` to `.env` in the project root and supply it with the correct c
 $ sudo apt-get install python3-pip cmake libopenblas-dev liblapack-dev libjpeg-dev
 $ git clone https://github.com/JetsonHacksNano/installSwapfile
 $ ./installSwapfile/installSwapfile.sh
+
 $ wget http://dlib.net/files/dlib-19.17.tar.bz2 
 $ tar jxvf dlib-19.17.tar.bz2
 $ cd dlib-19.17
-```
-Remove "forward_algo = forward_best_algo;" in dlib/cuda/cudnn_dlibapi.cpp
-```bash
+# Remove "forward_algo = forward_best_algo;" in dlib/cuda/cudnn_dlibapi.cpp
+
 $ sudo python3 setup.py install
 $ sudo pip3 install face_recognition
 ```
@@ -172,5 +180,3 @@ $ pip3 install Cython
 $ pip3 install numpy
 $ pip3 install https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_aarch64.whl
 ```
-
-#### Emotion Recognition
