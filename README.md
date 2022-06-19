@@ -119,3 +119,6 @@ python3 application.py
 ```
 
 And you're done! Head to <http://127.0.0.1:5000> to see the dashboard.
+
+## How to run the register and the in-class monitor on Jetson Nano?
+See readme in jetson nano file.
