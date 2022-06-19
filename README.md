@@ -20,7 +20,8 @@ The program on Jetson Nano will take a shot periodically, do face & emotion reco
 - Web hosting: AWS EC2 (with Elastic Beanstalk)
 - Database: AWS DynamoDB
 - Live Capuring: Jetson Nano
-- Face & Emotion Recognition: AWS Rekognition
+- Face Recognition: Jetson Nano
+- Emotion Recognition: AWS Rekognition
 
 ## System Architecture
 
