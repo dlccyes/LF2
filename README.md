@@ -121,4 +121,30 @@ python3 application.py
 And you're done! Head to <http://127.0.0.1:5000> to see the dashboard.
 
 ## How to run the register and the in-class monitor on Jetson Nano?
-See ```README.md``` in ```jetson-nano``` folder.
+### Devices
+- [Jetson Nano](https://www.nvidia.com/zh-tw/autonomous-machines/embedded-systems/jetson-nano/)
+- [Raspberry Pi Camera V2](https://www.raspberrypi.com/products/camera-module-v2/)
+- [Scanner](https://www.amazon.com/usb-scanner/s?k=usb+scanner)
+
+### Install project dependencies
+#### gRPC-with-protobuf (On Jetson Nano)
+```bash
+# Install protobuf compiler
+$ sudo apt-get install protobuf-compiler
+
+# Install buildtools
+$ sudo apt-get install build-essential make
+
+# Install grpc packages
+$ pip3 install -r grpc_requirements.txt
+```
+#### AWS SDK for Python
+```bash
+# Install boto3
+$ pip3 install boto3
+
+# Install dotenv
+$ pip3 install python-dotenv
+
+Rename `.env_bak` to `.env` in the project root and supply it with the correct credentials for this script to work.
+```
